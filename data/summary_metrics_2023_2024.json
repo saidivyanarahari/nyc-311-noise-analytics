@@ -1,0 +1,48 @@
+{
+  "dataset_source": "NYC Open Data (erm2-nwe9)",
+  "date_range": "2023-01-01 to 2024-12-31",
+  "total_noise_complaints": 1439558,
+  "borough_counts": {
+    "MANHATTAN": 387561,
+    "BROOKLYN": 377416,
+    "BRONX": 354909,
+    "QUEENS": 287977,
+    "STATEN ISLAND": 31157,
+    "Unspecified": 538
+  },
+  "borough_percentages": {
+    "MANHATTAN": 26.92,
+    "BROOKLYN": 26.22,
+    "BRONX": 24.65,
+    "QUEENS": 20.0,
+    "STATEN ISLAND": 2.16,
+    "Unspecified": 0.04
+  },
+  "top_3_boroughs_combined": {
+    "boroughs": [
+      "MANHATTAN",
+      "BROOKLYN",
+      "BRONX"
+    ],
+    "count": 1119886,
+    "percentage": 77.79
+  },
+  "top_2_boroughs_combined": {
+    "boroughs": [
+      "MANHATTAN",
+      "BROOKLYN"
+    ],
+    "count": 764977,
+    "percentage": 53.14
+  },
+  "complaint_types": {
+    "Noise - Residential": 677749,
+    "Noise - Street/Sidewalk": 310450,
+    "Noise - Commercial": 136096,
+    "Noise": 108234,
+    "Noise - Vehicle": 100090,
+    "Noise - Helicopter": 87813,
+    "Noise - Park": 16585,
+    "Noise - House of Worship": 2541
+  }
+}
