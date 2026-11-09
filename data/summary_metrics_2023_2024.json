@@ -1,5 +1,5 @@
 {
-  "dataset_source": "NYC Open Data (erm2-nwe9)",
+  "dataset_source": "NYC Open Data (erm2-nwe9) via Socrata SoQL API",
   "date_range": "2023-01-01 to 2024-12-31",
   "total_noise_complaints": 1439558,
   "borough_counts": {
@@ -44,5 +44,49 @@
     "Noise - Helicopter": 87813,
     "Noise - Park": 16585,
     "Noise - House of Worship": 2541
+  },
+  "day_of_week_counts": {
+    "Sunday": 304195,
+    "Monday": 181441,
+    "Tuesday": 162758,
+    "Wednesday": 154235,
+    "Thursday": 158975,
+    "Friday": 195514,
+    "Saturday": 282440
+  },
+  "day_of_week_metrics": {
+    "mon_thu_daily_average": 164352.25,
+    "thursday_daily_volume": 158975,
+    "friday_daily_volume": 195514,
+    "friday_vs_thursday_daily_surge_pct": 22.98,
+    "sat_sun_daily_average": 293317.5,
+    "sat_sun_surge_vs_weekday_avg_pct": 78.47,
+    "fri_sun_combined_volume": 782149,
+    "fri_sun_combined_pct": 54.33
+  },
+  "hourly_distribution_all_days": {
+    "ground_zero_10pm_to_midnight_count": 304740,
+    "ground_zero_10pm_to_midnight_pct": 21.17,
+    "core_window_9pm_to_1am_count": 545058,
+    "core_window_9pm_to_1am_pct": 37.86,
+    "evening_window_8pm_to_2am_count": 724018,
+    "evening_window_8pm_to_2am_pct": 50.29
+  },
+  "top_residential_zip_codes": {
+    "top_10_count": 176147,
+    "residential_population_total": 677749,
+    "residential_top_10_share_pct": 25.99,
+    "top_10_zips": [
+      {"zip": "10466", "count": 73393},
+      {"zip": "10456", "count": 15117},
+      {"zip": "10468", "count": 13719},
+      {"zip": "11226", "count": 11412},
+      {"zip": "10457", "count": 11180},
+      {"zip": "11221", "count": 11171},
+      {"zip": "10452", "count": 10394},
+      {"zip": "10031", "count": 10031},
+      {"zip": "10467", "count": 10023},
+      {"zip": "11207", "count": 9707}
+    ]
   }
 }

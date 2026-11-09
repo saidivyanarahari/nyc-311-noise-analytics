@@ -5,22 +5,22 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Data Source: NYC Open Data](https://img.shields.io/badge/Data-NYC%20Open%20Data-003366.svg)](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9)
 
-> **Executive Summary:** An operational data-analytics investigation translating **1.44 million municipal 311 incident records** (2023–2024) into a targeted resource-allocation strategy. Demonstrates that municipal noise is heavily concentrated across space and time—enabling civic leadership to move from reactive, uniform patrols to a high-impact, prioritized enforcement pilot.
+> **Executive Summary:** An operational data-analytics investigation translating **1.44 million municipal 311 incident records** (2023–2024) into a prioritized resource-allocation strategy. Demonstrates extreme spatial and temporal Pareto concentration—providing civic leadership with an empirical basis to transition from uniform, reactive patrols toward a high-impact, prioritized enforcement pilot.
 
 ---
 
-## 📌 Executive Overview & Core Problem
+## 📌 Executive Overview & Problem Context
 
-Municipal service centers handle millions of non-emergency requests annually. In New York City, noise complaints represent the **single largest category** of 311 calls routed to the New York City Police Department (NYPD) and Department of Environmental Protection (DEP).
+Municipal service centers handle millions of citizen requests annually. In New York City, noise complaints represent the **single largest volume** of 311 service requests directed to the New York City Police Department (NYPD) and Department of Environmental Protection (DEP).
 
 ### The Operational Challenge
-Traditional municipal operations disperse patrol officers and inspection teams evenly across all 59 Community Districts 24 hours a day. This "peanut-butter spreading" approach:
-1. Dilutes enforcement impact in chronic, severe hotspots.
+Traditional municipal operations disperse patrol officers and inspection teams reactively and uniformly across all 59 Community Districts 24 hours a day. This "peanut-butter spreading" approach:
+1. Dilutes enforcement impact across severe, chronic hotspots.
 2. Incurs high municipal overtime costs during non-peak windows.
 3. Fails to reduce recurrent quality-of-life complaints.
 
-**Core Analytical Question:**  
-*Where and when do noise complaints concentrate, and how can limited municipal resources be allocated to maximize quality-of-life remediation?*
+**Core Business Question:**  
+*Where and when do noise complaints concentrate, and how can limited municipal resources be deployed surgically to maximize quality-of-life remediation?*
 
 ---
 
@@ -28,52 +28,58 @@ Traditional municipal operations disperse patrol officers and inspection teams e
 
 All metrics reflect rigorous population-level extraction and multi-season sample verification from the official NYC Open Data API across calendar years 2023 and 2024.
 
-| Analytical Dimension | Verified Finding | Operational Significance |
-| :--- | :--- | :--- |
-| **Total Population Volume** | **1,439,558 Records** | ~1.44 million verified noise complaints across 2023–2024. |
-| **Borough Pareto Concentration** | **77.8% in 3 Boroughs** | Manhattan (26.9%), Brooklyn (26.2%), and Bronx (24.7%) carry >1.12M complaints. |
-| **Hyper-Local Clustering** | **~20% in 10 ZIP Codes** | 10 out of 200+ residential ZIP codes generate one-fifth of citywide volume. |
-| **Primary Root Cause** | **>52% Loud Music/Party** | Over 59% combined residential/music noise; behavioral rather than mechanical. |
-| **Temporal Surge** | **+23% on Weekends** | Average daily complaint counts surge 23% Friday through Sunday. |
-| **Operational "Ground Zero"** | **9:00 PM – 1:00 AM** | Slices >50% of overnight complaints, with peak intensity between 10 PM and Midnight. |
-| **Intervention Scenario Model** | **~84,000 Fewer Complaints** | Hypothetical reduction under a 50% effective targeted pilot in the top 10 ZIPs. |
+| Analytical Dimension | Verified Finding | Calculation & Denominator | Operational Relevance |
+| :--- | :--- | :--- | :--- |
+| **Total Incident Volume** | **1,439,558 Records** | SoQL Query: `created_date BETWEEN '2023-01-01' AND '2024-12-31' AND complaint_type LIKE '%Noise%'` | Full 2-year population baseline (~1.44M). |
+| **Top 3 Borough Concentration** | **77.79% (~78%)** | $\frac{1,119,886 \text{ (MHT+BK+BX)}}{1,439,558 \text{ (Total Records)}} \times 100$ | Manhattan (26.92%), Brooklyn (26.22%), Bronx (24.65%) carry over three-quarters of all volume. |
+| **Top 2 Borough Concentration** | **53.14% (~53%)** | $\frac{764,977 \text{ (MHT+BK)}}{1,439,558 \text{ (Total Records)}} \times 100$ | Over half of citywide complaints originate in Manhattan and Brooklyn alone. |
+| **Top 10 ZIP Concentration (Sample)** | **17.47%** | $\frac{8,730 \text{ (Top 10 ZIPs)}}{49,970 \text{ (Valid ZIP Records in 50k Sample)}} \times 100$ | 10 ZIP codes generate nearly one-fifth of complaints across 200+ residential ZIPs. |
+| **Top 10 ZIP Concentration (Residential)** | **25.99%** | $\frac{176,147 \text{ (Top 10 Residential ZIPs)}}{677,749 \text{ (Residential Population)}} \times 100$ | Over one-quarter of residential noise concentrates in 10 neighborhoods. |
+| **Primary Descriptor** | **52.46% Loud Music** | $\frac{26,228 \text{ ('Loud Music/Party')}}{50,000 \text{ (Sample Total)}} \times 100$ | Behavioral driver (55.00% within `Noise - Residential` specifically). |
+| **Friday Daily Volume Surge** | **+22.98% (~23%)** | $\frac{195,514 \text{ (Friday Daily Vol)}}{158,975 \text{ (Thursday Daily Vol)}} - 1$ | Friday marks the sharpest daily acceleration into the weekend. |
+| **Weekend Daily Average Surge** | **+78.47%** | $\frac{293,317.5 \text{ (Sat/Sun Daily Avg)}}{164,352.25 \text{ (Mon–Thu Daily Avg)}} - 1$ | Saturday/Sunday daily volumes surge 78% over weekday baselines. |
+| **Core Patrol Window (All Days)** | **37.86% (9 PM – 1 AM)** | $\frac{545,058 \text{ (Hours 21–00)}}{1,439,558 \text{ (Total Records)}} \times 100$ | 4-hour night block (accounts for **40.18%** on weekends). |
+| **Evening/Night Window (All Days)**| **50.29% (~51%) (8 PM – 2 AM)**| $\frac{724,018 \text{ (Hours 20–01)}}{1,439,558 \text{ (Total Records)}} \times 100$ | 6-hour window capturing over half of all complaints (52.25% on weekends). |
+| **Operational "Ground Zero"** | **21.17% (10 PM – 12 AM)** | $\frac{304,740 \text{ (Hours 22–23)}}{1,439,558 \text{ (Total Records)}} \times 100$ | Peak 2-hour window capturing over one-fifth of citywide volume. |
+| **Target Hotspot Pool** | **~84,000 Complaints/yr** | $828,000 \text{ (Baseline)} \times 20\% \text{ (ZIP Share)} \times 50.7\% \text{ (Evening Share)}$ | Annual volume occurring in targeted hotspot window. |
+| **Projected Pilot Reduction** | **~21k to 42k Prevented** | Efficacy Sensitivity: 25% Efficacy $= 20,990$; 50% Efficacy $= 41,980$ | Illustrative ceiling $= 83,959$ (original deck upper-bound). |
 
 ---
 
 ## 📈 Visual Analytics & Evidence
 
-### 1. Borough Distribution: The 78% Concentration
-Manhattan, Brooklyn, and the Bronx account for **1.12 million of the 1.44 million** complaints logged across the city. Meanwhile, Staten Island accounts for just 2.2% of complaint volume.
+### 1. Borough Distribution: The 77.8% Concentration
+Manhattan, Brooklyn, and the Bronx account for **1.12 million of the 1.44 million** complaints logged across the city. Meanwhile, Staten Island accounts for just 2.16% of complaint volume.
 
 ![Borough Distribution](visuals/borough_distribution.png)
 
 ---
 
 ### 2. Hyper-Local Pareto: Top 10 Hotspot ZIP Codes
-Out of over 200 residential ZIP codes in New York City, twenty percent of all complaints originate from just ten high-density corridors in the West Bronx, Upper Manhattan, and North/Central Brooklyn.
+In our 50,000-record multi-season sample, the top 10 ZIP codes account for **17.47%** of valid postal records across NYC's 200+ residential ZIP codes. In the citywide residential population, the top 10 residential ZIP codes drive **25.99%** of volume.
 
 ![Top 10 ZIP Codes](visuals/top10_zip_codes.png)
 
 ---
 
 ### 3. Temporal Density Heatmap: Day vs. Hour
-Plotting complaint volume across the 168 hours of the week reveals that noise is strongly predictable. Weekend evenings between **9:00 PM and 1:00 AM** represent the critical operational intervention window.
+Plotting complaint volume across the 168 hours of the week confirms strong temporal clustering. The **9:00 PM – 1:00 AM** window captures **37.9%** of complaints across all days (and **40.2%** on weekends), while the broader **8:00 PM – 2:00 AM** window accounts for **50.3%** across all days (and **52.3%** on weekends).
 
 ![Hourly Noise Heatmap](visuals/hourly_noise_heatmap.png)
 
 ---
 
-### 4. Pilot Scenario Model: The "Quiet Force" Framework
-Instead of an unfocused citywide patrol, the proposed **"Quiet Force"** pilot reallocates existing evening units specifically into the 10 hotspot ZIP codes during weekend peak hours.
+### 4. Pilot Scenario Modeling: Target Pool vs. Prevented Complaints
+To maintain analytical rigor, the project separates the **target problem pool** (~84,000 complaints occurring annually in the hotspot window) from **prevented complaints** across realistic effectiveness rates (25% = ~21k, 50% = ~42k).
 
 ![Pilot Scenario Projection](visuals/pilot_scenario_projection.png)
 
 > [!NOTE]
-> **Methodological Guardrail:** The projected 84,000 complaint reduction is strictly an **illustrative scenario simulation**, not an observed real-world policy outcome. It evaluates the mathematical ceiling of a 50% de-escalation rate in target zones.
+> **Methodological Guardrail:** The 84,000 figure is retained strictly as an **illustrative upper-bound scenario** representing full remediation of the targeted window pool ($828\text{k} \times 20\% \times 50.7\% = 83,959$). It is **not** an observed real-world policy result.
 
 ---
 
-## 🛠️ Tech Stack & Tools
+## 🛠️ Tech Stack & Reproducibility Architecture
 
 * **Language:** Python 3.10+
 * **Data Processing & Analysis:** pandas, NumPy
@@ -90,10 +96,11 @@ nyc-311-noise-analytics/
 ├── README.md                      # Executive briefing, visual gallery & reproduction guide
 ├── requirements.txt               # Pinned Python package dependencies
 ├── .gitignore                     # Git ignore rules protecting large data & checkpoints
+├── LICENSE                        # MIT Open Source License
 ├── notebooks/
-│   └── nyc_noise_analysis.ipynb   # 11-stage reproducible end-to-end Python notebook
+│   └── nyc_noise_analysis.ipynb   # Audited 11-stage reproducible Python notebook
 ├── src/
-│   ├── data_processing.py         # Modular pipeline for API fetching, cleaning & metrics
+│   ├── data_processing.py         # Pipeline module with live Socrata SoQL API queries
 │   └── build_notebook.py          # Script generating standardized notebook structure
 ├── visuals/                       # Publication-grade PNG charts (300 DPI)
 │   ├── borough_distribution.png
@@ -114,7 +121,7 @@ nyc-311-noise-analytics/
 
 ---
 
-## 🚀 Reproduction & Setup
+## 🚀 Reproduction Instructions
 
 ### 1. Clone the Repository
 ```bash
@@ -130,33 +137,24 @@ pip install -r requirements.txt
 ```
 
 ### 3. Run the Data Pipeline & Notebook
-The repository comes pre-packaged with `data/sample_nyc_noise_50k.csv` so you can execute the notebook immediately without waiting for API downloads:
+The repository includes `data/sample_nyc_noise_50k.csv` so the notebook runs immediately without downloading gigabytes of data:
 
 ```bash
 # Launch the Jupyter Notebook
 jupyter notebook notebooks/nyc_noise_analysis.ipynb
 ```
 
-*(Optional) To fetch a fresh data batch directly from the NYC Open Data Socrata API:*
+*(Optional) To regenerate population metrics live from the NYC Open Data Socrata API:*
 ```bash
-python src/data_processing.py --download-sample
+python src/data_processing.py --regenerate-population-metrics
 ```
 
 ---
 
-## 🔍 Data Governance & Limitations
+## 👤 Provenance & Individual Ownership
 
-1. **Reporting Bias vs. Sound Levels:** 311 measures citizen reporting habits and smartphone/telephone access, not calibrated decibel meter readings ($dB(A)$).
-2. **Density Confounders:** Raw complaint volume is correlated with housing density and pre-war multi-family building construction.
-3. **Event Duplication:** A single loud gathering often triggers multiple calls from different neighbors in the same building.
-4. **Scenario Model Scope:** The pilot's projected 84,000 reduction is an operational hypothesis model, not an empirical after-action study.
-
----
-
-## 👤 Author Contribution & Academic Provenance
-
-* **Original Academic Project:** Authored and presented by **Sai Divya Narahari** for *EAI6120: AI Communication / Visualization* at **Northeastern University** (December 14, 2025; Guided by Prof. Walter McHugh).
-* **Open-Source Engineering & Reproduction:** Independently reconstructed the end-to-end Python pipeline, Socrata API ingestion module, statistical denominator audit, and automated Jupyter notebook for public portfolio presentation.
+* **Original Academic Project (Dec 14, 2025):** The strategic framework, mayoral presentation, and "Quiet Force" scenario model were created and presented by **Sai Divya Narahari** for *EAI6120: AI Communication / Visualization* at **Northeastern University** (Guided by Prof. Walter McHugh).
+* **Reconstructed Python Codebase (Nov 2026):** Because coursework Colab scripts were not preserved in local files, the entire automated data ingestion, cleaning pipeline, statistical denominator audit, and Jupyter notebook were independently reconstructed and validated using public NYC Open Data.
 
 ---
 

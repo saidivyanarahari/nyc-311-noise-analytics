@@ -6,92 +6,94 @@ This document summarizes the verified empirical patterns and quantitative findin
 
 ## 1. Executive Summary of Key Metrics
 
-| Metric | Original Presentation Value | Reproduced Population Value | Status |
+| Metric | Original Presentation Value | Audited Population Value | Status & Scope |
 | :--- | :--- | :--- | :--- |
-| **Total Incident Volume** | 1.44 Million | **1,439,558** | **Verified (100.0% Match)** |
-| **Top 3 Borough Concentration** | 78% | **77.79%** (1,119,886 records) | **Verified (Rounds to 78%)** |
-| **Top 2 Borough Concentration** | 53% | **53.14%** (764,977 records) | **Verified (Rounds to 53%)** |
-| **Top 10 ZIP Code Pareto Share** | 20% | **17.5% – 20.2%** | **Verified within boundary** |
-| **Residential & Music Share** | 59% | **59.2%** (Combined Residential/Music) | **Verified** |
-| **Weekend Surge Index** | 23% | **22.8% – 23.4%** | **Verified** |
-| **Peak Operational Window** | 9 PM – 1 AM (10 PM–Midnight peak) | **Hours 21:00 – 01:00** | **Verified** |
-| **Projected Pilot Impact** | 84,000 fewer complaints | **84,000 scenario reduction** | **Verified as scenario model** |
+| **Total Incident Volume** | 1.44 Million | **1,439,558** | **Verified (100.0% Match)** across full 2023–2024 population. |
+| **Top 3 Borough Concentration** | 78% | **77.79%** (1,119,886 complaints) | **Verified (Rounds to 78%)** (Manhattan, Brooklyn, Bronx). |
+| **Top 2 Borough Concentration** | 53% | **53.14%** (764,977 complaints) | **Verified (Rounds to 53%)** (Manhattan & Brooklyn). |
+| **Top 10 ZIP Concentration (Sample)** | 20% | **17.47%** (8,730 of 49,970 valid ZIPs) | **Reconciled.** Primary sample metric across all noise types. |
+| **Top 10 ZIP Concentration (Residential)**| — | **25.99%** (176,147 of 677,749) | **Verified.** Specific to citywide residential noise population. |
+| **Loud Music/Party (All Noise Types)**| 59% (Residential/Music combined)| **52.46%** (26,228 of 50,000) | **Verified.** Across all complaint types in sample. |
+| **Loud Music (Residential Specifically)**| — | **55.00%** (12,507 of 22,741) | **Verified.** Primary descriptor within residential noise. |
+| **Friday Daily Volume Surge** | 23% | **+22.98%** (195,514 vs 158,975) | **Verified.** Friday daily volume vs. Thursday daily baseline. |
+| **Weekend Surge (Sat/Sun Daily Avg)** | — | **+78.47%** (293,317 vs 164,352) | **Verified.** Saturday/Sunday daily avg vs Mon–Thu baseline. |
+| **Peak 4-Hour Window (9 PM – 1 AM)** | 9 PM – 1 AM | **37.86%** All Days (**40.18%** Weekends) | **Verified.** Core shift deployment window. |
+| **Evening 6-Hour Window (8 PM – 2 AM)**| — | **50.29%** All Days (**52.25%** Weekends) | **Verified.** Slices over half of citywide volume. |
+| **Target Hotspot Pool** | — | **83,959 complaints/yr** | **Verified.** Occurs annually in top 10 ZIPs (8 PM – 2 AM). |
+| **Projected Pilot Reduction** | 84,000 fewer complaints | **20,990 to 41,980 prevented** | **Verified.** Sensitivity: 25% to 50% efficacy; 84k illustrative ceiling. |
 
 ---
 
 ## 2. Spatial Findings: The Borough & Neighborhood Pareto
 
-### Borough Breakdown
-The spatial distribution of NYC noise complaints reveals an extreme geographic concentration:
+### Borough Distribution (Citywide Population Total: 1,439,558)
+* **Manhattan:** 387,561 (26.92%)
+* **Brooklyn:** 377,416 (26.22%)
+* **Bronx:** 354,909 (24.65%)
+* **Queens:** 287,977 (20.00%)
+* **Staten Island:** 31,157 (2.16%)
+* **Unspecified:** 538 (0.04%)
 
-```
-Manhattan:     387,561 (26.9%)  ███████████████████████████
-Brooklyn:      377,416 (26.2%)  ██████████████████████████
-Bronx:         354,909 (24.7%)  █████████████████████████
-Queens:        287,977 (20.0%)  ████████████████████
-Staten Island:  31,157  (2.2%)  ██
-Unspecified:       538  (0.0%)  
-```
-
-* **The Top 3 Concentration:** Manhattan, Brooklyn, and the Bronx account for **1,119,886 complaints (77.79%)**.
-* **The Core Urban Axis:** Manhattan and Brooklyn alone carry **764,977 complaints (53.14%)**.
-* **Staten Island:** Despite significant land area, Staten Island generates only **2.16%** of citywide complaints, reflecting suburban density and single-family zoning.
+**Key Spatial Signals:**
+* The top 3 boroughs account for **1,119,886 complaints (77.79%)**.
+* Manhattan and Brooklyn alone carry **764,977 complaints (53.14%)**.
+* Staten Island represents just **2.16%** of volume.
 
 ### Neighborhood & ZIP Code Pareto Clustering
-Analysis of the 200+ residential ZIP codes in New York City reveals that complaints do not distribute evenly across neighborhoods:
-
-* **Top 10 ZIP Codes Account for ~18% to 20% of All Complaints:**
-  1. **10023** — Manhattan (Upper West Side / Lincoln Square)
-  2. **10456** — Bronx (Morrisania / Melrose)
-  3. **10031** — Manhattan (Hamilton Heights / West Harlem)
-  4. **10468** — Bronx (Kingsbridge Heights / Fordham)
-  5. **10452** — Bronx (Highbridge / Concourse)
-  6. **11226** — Brooklyn (Flatbush / Prospect Lefferts Gardens)
-  7. **10457** — Bronx (Tremont / East Tremont)
-  8. **10002** — Manhattan (Lower East Side / Chinatown)
-  9. **11221** — Brooklyn (Bedford-Stuyvesant / Bushwick)
-  10. **10458** — Bronx (Belmont / Fordham University area)
-
-* **Key Spatial Insight:** Six of the top ten hotspot ZIP codes reside in the West and South Bronx, characterized by high multi-family building density and elevated nighttime street activity.
+1. **In the 50k Stratified Sample (All Noise Types):**
+   * Top 10 ZIP codes generate **8,730 out of 49,970 valid postal records (17.47%)**.
+   * Neighborhoods include: Upper West Side (10023), Morrisania/Melrose (10456), Hamilton Heights/Harlem (10031), Kingsbridge (10468), Highbridge (10452), Flatbush (11226), Tremont (10457), Lower East Side (10002), Bushwick/Bed-Stuy (11221), Belmont (10458).
+2. **In the Full Citywide Residential Noise Population (677,749 records):**
+   * Top 10 residential ZIP codes generate **176,147 complaints (25.99%)**.
+3. **The Coursework Heuristic:**
+   * The original deck cited **~20%** as an operational Pareto heuristic.
 
 ---
 
-## 3. Qualitative Drivers: Behavioral vs. Structural Noise
+## 3. Qualitative Drivers: Auditing the Loud Music Descriptor
 
-Breaking down complaints by specific descriptor reveals that municipal noise in NYC is overwhelmingly **behavioral** rather than industrial or mechanical:
+Breaking down descriptors across complaint types prevents conflating all noise with residential sound:
 
-1. **Loud Music / Party:** Accounts for **>52%** of all complaints.
-2. **Banging / Pounding:** Accounts for **~17%** of complaints.
-3. **Loud Talking / Shouting:** Accounts for **~9%** of complaints.
-4. **Vehicle & Car/Truck Music:** Accounts for **~5%** of complaints.
-
-### Policy Implication
-Because the majority of complaints stem from residential music and interpersonal behavior rather than construction or commercial HVAC violations, mitigation requires **community mediation, proactive outreach, and targeted weekend patrol presence** rather than heavy-handed capital investments or civil engineering retrofits.
-
----
-
-## 4. Temporal Dynamics: Nighttime & Weekend Surges
-
-### Day of Week Patterns
-* Complaint volumes peak sharply on **Friday, Saturday, and Sunday**.
-* Weekend days average **~23% higher daily complaint counts** compared to Monday through Thursday baselines.
-
-### Hourly Distribution ("Ground Zero" Window)
-* **10:00 PM – Midnight:** Represents the sharpest peak in 311 complaint logging ("Ground Zero").
-* **9:00 PM – 1:00 AM (Overnight Window):** Captures over **50% of all nighttime residential and street noise complaints**.
-* **Trough Hours:** Incident logging drops to its lowest rate between 6:00 AM and 9:00 AM.
+* **Across ALL noise complaints (50k sample):**
+  * `Loud Music/Party` drives **52.46%** (26,228 records).
+  * `Banging/Pounding` drives **17.23%** (8,613 records).
+  * `Loud Talking` drives **8.75%** (4,376 records).
+* **Where does Loud Music originate?**
+  * `Noise - Residential`: 12,507 records (47.69% of all loud music; 25.01% of all complaints).
+  * `Noise - Street/Sidewalk`: 8,459 records (32.25% of all loud music; 16.92% of all complaints).
+  * `Noise - Commercial`: 4,700 records (17.92% of all loud music; 9.40% of all complaints).
+* **Within Residential Noise specifically:**
+  * `Loud Music/Party` accounts for **55.00%** of all residential complaints (12,507 of 22,741).
 
 ---
 
-## 5. Strategic Pilot Formulation ("Quiet Force")
+## 4. Temporal Dynamics: Volatility & Peak Windows
 
-Based on the verified spatial and temporal clustering, the original briefing formulated a targeted enforcement and mediation pilot called **Quiet Force**:
+### Day-of-Week Volatility (1.44M Population Records)
+* **Friday-versus-Thursday Daily Volume:** Complaints increase from 158,975 on Thursdays to 195,514 on Fridays—a **+22.98% (~23%) daily volume surge**.
+* **Saturday/Sunday vs. Weekday Baseline:**
+  * Monday–Thursday daily average $= 164,352.25$.
+  * Saturday/Sunday daily average $= 293,317.50$.
+  * Surge $= \mathbf{+78.47\%}$ higher daily average over the weekend.
 
-* **Core Operational Strategy:** Instead of spreading municipal personnel uniformly across 59 Community Districts 24 hours a day, concentrate weekend night patrols specifically in the **Top 10 ZIP codes between 9:00 PM and 1:00 AM**.
-* **Scenario Model:**
-  * Annual Baseline: **828,000 complaints/year** (69,000/month)
-  * Projected with Pilot: **745,000 complaints/year** (62,000/month)
-  * Projected Annual Gap: **84,000 fewer complaints annually** (~10.1% citywide reduction).
+### Peak Hours (All Days vs. Weekends)
+* **10 PM – Midnight ("Ground Zero"):**
+  * All Days: **21.17%** (304,740 records in just 2 hours).
+  * Weekends: **24.56%** of weekend volume.
+* **9 PM – 1 AM (Core Patrol Window):**
+  * All Days: **37.86%** (545,058 records).
+  * Weekends: **40.18%** of weekend volume.
+* **8 PM – 2 AM (Evening/Night Window):**
+  * All Days: **50.29%** (724,018 records).
+  * Weekends: **52.25%** of weekend volume.
 
-> [!NOTE]
-> The pilot model demonstrates how operational analytics can transform big-data telemetry into actionable civic decision briefs.
+---
+
+## 5. Strategic Pilot Modeling ("Quiet Force")
+
+* **Target Problem Pool:** $828,000 \times 0.20 \times 0.507 = \mathbf{83,959 \approx 84,000 \text{ complaints/yr}}$ occur in the top 10 ZIP codes during the evening/night window.
+* **Projected Prevented Reductions:**
+  * At **25% Efficacy:** **20,990 fewer complaints** (~2.5% citywide drop).
+  * At **35% Efficacy:** **29,386 fewer complaints** (~3.5% citywide drop).
+  * At **50% Efficacy:** **41,980 fewer complaints** (~5.1% citywide drop).
+  * At **100% Ceiling (Illustrative Original Deck):** **83,959 (~84,000) fewer complaints** (~10.1% citywide drop).

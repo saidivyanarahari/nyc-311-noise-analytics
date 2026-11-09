@@ -1,12 +1,12 @@
-# Project Boundaries, Analytical Limitations & Future Work
+# Project Boundaries, Analytical Limitations & Responsible Analytics
 
 Maintaining intellectual honesty and methodological rigor is central to this analysis. This document outlines the key constraints of municipal 311 citizen telemetry and the operational boundaries of the proposed scenario model.
 
 ---
 
-## 1. 311 Reporting Propensity vs. Ground-Truth Acoustic Volume
+## 1. 311 Reporting Propensity vs. Ground-Truth Sound Levels
 
-The most fundamental limitation of municipal 311 data is that it measures **citizen reporting propensity**, not objective acoustic decibel levels:
+The most fundamental constraint of municipal 311 data is that it measures **citizen reporting propensity**, not objective acoustic decibel levels:
 
 1. **Reporting Bias & Demographic Disparities:**
    * Propensity to dial 311 or submit requests via the mobile application varies significantly by neighborhood income, language fluency, age, housing tenure (renters vs. owners), and historical trust in municipal authorities.
@@ -17,12 +17,12 @@ The most fundamental limitation of municipal 311 data is that it measures **citi
 
 ---
 
-## 2. Spatial Confounders: Population Density & Building Typology
+## 2. Spatial Confounders: Population Density & Housing Stock
 
 * **Gross Volume vs. Per-Capita Rates:**
-  * High-density areas such as Upper Manhattan or Flatbush naturally generate higher raw complaint totals simply due to the concentration of residents living in close proximity within multi-family apartment buildings.
+  * High-density areas such as Upper Manhattan or the West Bronx naturally generate higher raw complaint totals simply due to the concentration of residents living in close proximity within multi-family apartment buildings.
   * Without normalizing by residential population density and housing unit counts (e.g., US Census ACS data), raw complaint volume risks penalizing dense neighborhoods while overlooking suburban noise pollution.
-* **Acoustic Building Physics:**
+* **Building Physics & Pre-War Construction:**
   * Pre-war residential buildings with minimal acoustic insulation and shared party walls exacerbate neighbor-to-neighbor noise transmission, driving higher complaint frequency regardless of resident behavior.
 
 ---
@@ -40,10 +40,17 @@ The most fundamental limitation of municipal 311 data is that it measures **citi
 ## 4. Operational Boundaries of the "Quiet Force" Scenario Model
 
 > [!WARNING]
-> **Essential Analytical Distinction:** The projected reduction of **84,000 complaints** is strictly a **scenario simulation**, NOT an observed real-world policy result.
+> **Essential Analytical Distinction:** The projected reduction of **84,000 complaints** is strictly an **illustrative upper-bound scenario**, NOT an observed real-world policy result.
 
-* **No Implementation Claim:** The "Quiet Force" pilot program was formulated as an academic strategy brief for the NYC Office of the Mayor; it was not adopted or deployed by municipal authorities.
-* **No Realized Savings:** This project does not claim that municipal budgets were saved, that officer hours were reduced, or that citywide complaints measurably dropped.
+* **Target Population Pool vs. Prevented Reduction:**
+  * The ~84,000 figure represents the **entire targeted complaint pool** occurring in the top 10 ZIP codes during evening/night hours ($828,000 \times 20\% \times 50.7\% = 83,959$).
+  * Projecting an 84,000 reduction assumes **100% elimination** of all targeted noise, which is an unrealistic, theoretical ceiling.
+  * Realistic pilot scenarios project:
+    * **25% Effectiveness:** **20,990 fewer complaints** (~2.5% citywide drop).
+    * **35% Effectiveness:** **29,386 fewer complaints** (~3.5% citywide drop).
+    * **50% Effectiveness:** **41,980 fewer complaints** (~5.1% citywide drop).
+* **No Municipal Adoption Claim:** The "Quiet Force" pilot program was formulated as an academic strategy brief for the NYC Office of the Mayor; it was not adopted or deployed by municipal authorities.
+* **No Realized Savings Claim:** This project does not claim that municipal budgets were saved, that officer hours were reduced, or that citywide complaints measurably dropped.
 * **Displacement Effects (Spatial Spreading):** A common risk in targeted enforcement is that noise-producing activities simply displace across precinct boundaries or shift into adjacent unpatrolled hours.
 
 ---
