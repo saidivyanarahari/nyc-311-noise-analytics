@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Data Source: NYC Open Data](https://img.shields.io/badge/Data-NYC%20Open%20Data-003366.svg)](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9)
 
-> **Executive Summary:** An operational data-analytics investigation translating **1.44 million municipal 311 incident records** (2023–2024) into an empirical resource-allocation strategy. Demonstrates spatial and temporal Pareto concentration, resolves **joint probability vs. naive marginal multiplication**, and provides civic leadership with an audited decision-support model to transition from uniform, reactive patrols toward a high-impact enforcement pilot.
+> **Executive Summary:** This project evaluates **1.44 million NYC 311 noise complaints** (2023–2024) to address a core municipal operations challenge: deploying limited enforcement and community-mediation resources without data-driven spatial and temporal prioritization. Using Python, pandas, and the NYC Open Data Socrata API, the analysis establishes that **77.8% of complaints concentrate in three boroughs** (Manhattan, Brooklyn, Bronx), with citywide volume surging **+23% on Fridays and +78% on weekends**. By auditing the **empirical joint probability** of complaints ($P(\text{Top 10 ZIP} \cap \text{8 PM–2 AM}) = 9.39\%$), the study isolates a targeted problem pool of **~67,600 complaints annually** and evaluates illustrative pilot scenarios to inform data-driven civic decision-making.
 
 ---
 
@@ -14,10 +14,10 @@
 Municipal service centers handle millions of citizen requests annually. In New York City, noise complaints represent the **single largest volume** of 311 service requests directed to the New York City Police Department (NYPD) and Department of Environmental Protection (DEP).
 
 ### The Operational Challenge
-Traditional municipal operations disperse patrol officers and inspection teams reactively and uniformly across all 59 Community Districts 24 hours a day. This "peanut-butter spreading" approach:
-1. Dilutes enforcement impact across severe, chronic hotspots.
-2. Incurs high municipal overtime costs during non-peak windows.
-3. Fails to reduce recurrent quality-of-life complaints.
+Without data-driven spatial and temporal targeting, municipal quality-of-life responses face operational friction:
+1. Broad, reactive deployments risk diluting coverage across severe, chronic hotspots.
+2. Standard shift scheduling can incur overtime during non-peak hours while under-resourcing peak weekend windows.
+3. Recurrent quality-of-life complaints persist without localized root-cause intervention.
 
 **Core Business Question:**  
 *Where and when do noise complaints concentrate, and how can limited municipal resources be deployed surgically to maximize quality-of-life remediation?*
@@ -43,8 +43,8 @@ All metrics reflect rigorous population-level extraction and multi-season comple
 | **Evening/Night Window (All Days)**| **50.29% (~51%) (8 PM – 2 AM)**| $\frac{724,018 \text{ (Hours 20–01)}}{1,439,558 \text{ (Total Records)}} \times 100$ | 6-hour window capturing over half of all complaints (51.40% in sample). |
 | **Operational "Ground Zero"** | **21.17% (10 PM – 12 AM)** | $\frac{304,740 \text{ (Hours 22–23)}}{1,439,558 \text{ (Total Records)}} \times 100$ | Peak 2-hour window capturing over one-fifth of citywide volume. |
 | **Empirical Joint Target Pool** | **9.39% (~67.6k/yr)** | $\frac{135,111 \text{ (Top 10 ZIPs } \cap \text{ 8 PM--2 AM)}}{1,439,558 \text{ (Total Records)}} \times 100$ | True empirical joint problem pool ($P(\text{ZIP} \cap \text{Time})$). |
-| **Naive Marginal Multiplication** | **~84,000 Complaints/yr** | $828,000 \text{ (Peak Baseline)} \times 20\% \text{ (ZIP)} \times 50.7\% \text{ (Time)} = 83,959$ | Original coursework estimate assuming statistical independence. |
-| **Projected Pilot Reductions** | **~13.5k to ~33.8k/yr** | Efficacy Sensitivity: 20% Efficacy $= 13,511$; 25% $= 16,889$; 50% $= 33,778$ | Realistic prevented complaint scenarios on true empirical joint pool. |
+| **Historical Coursework Estimate** | **~84,000 Complaints/yr** | $828,000 \text{ (Peak Baseline)} \times 20\% \text{ (ZIP)} \times 50.7\% \text{ (Time)} = 83,959$ | Historical coursework scenario estimate assuming independent marginal probabilities; represents the targeted problem pool rather than an observed or verified intervention impact. |
+| **Assumed Pilot Reductions** | **~13.5k to ~33.8k/yr** | Efficacy Sensitivity: 20% Efficacy $= 13,511$; 25% $= 16,889$; 50% $= 33,778$ | Illustrative prevented complaint scenarios evaluated on the true empirical joint problem pool. |
 
 ---
 
@@ -72,12 +72,12 @@ Plotting complaint volume across the 168 hours of the week confirms intense temp
 ---
 
 ### 4. Pilot Scenario Modeling: Target Pool vs. Prevented Complaints
-To maintain analytical rigor, the project separates the **target problem pool** from **prevented complaints** across realistic effectiveness rates (25% = ~16.9k, 35% = ~23.6k, 50% = ~33.8k).
+To maintain analytical rigor, the project separates the **target problem pool** from **prevented complaints** across illustrative effectiveness scenarios (25% = ~16.9k, 35% = ~23.6k, 50% = ~33.8k).
 
 ![Pilot Scenario Projection](visuals/pilot_scenario_projection.png)
 
 > [!NOTE]
-> **Methodological Guardrail on the 84,000 Figure:** The 84,000 figure is retained strictly as an **illustrative upper-bound scenario** representing the naive marginal estimate of the targeted problem pool ($828\text{k} \times 20\% \times 50.7\% = 83,959 \approx 84\text{k}$). The true empirical joint intersection is **9.39%** (67,556 complaints/yr on actual 2-year volume). Preventing 84,000 complaints from this pool would require >100% efficacy. Realistic pilot models project 13,500 to 33,800 complaints prevented annually.
+> **Methodological Guardrail on the 84,000 Figure:** The 84,000 figure is a **historical coursework scenario estimate** derived from naive marginal multiplication of annual peak volume ($828\text{k} \times 20\% \times 50.7\% = 83,959 \approx 84\text{k}$). It reflects an illustrative calculation of the *targeted complaint pool*, **not** an observed, verified, or realized intervention reduction. The true empirical joint intersection is **9.39%** (~67,556 complaints/yr on actual 2-year volume). Preventing 84,000 complaints from this pool would require an impossible >100% efficacy rate. Illustrative pilot scenarios project 13,500 to 33,800 complaints prevented annually under assumed 20% to 50% intervention efficacy rates.
 
 ---
 
@@ -101,7 +101,7 @@ $$P(\text{Top 10 ZIP} \cap \text{8 PM–2 AM}) = \frac{135,111}{1,439,558} = \ma
 
 ## 🛠️ Tech Stack & Reproducibility Architecture
 
-* **Language:** Python 3.10+
+* **Language:** Python 3.10+ (tested on Python 3.10 through 3.14)
 * **Data Processing & Analysis:** pandas, NumPy
 * **Visualization & Reporting:** Matplotlib, Seaborn
 * **Data Telemetry & Extraction:** Socrata Open Data API (SoQL), requests
@@ -167,6 +167,11 @@ jupyter notebook notebooks/nyc_noise_analysis.ipynb
 *(Optional) To regenerate population metrics live from the NYC Open Data Socrata API:*
 ```bash
 python src/data_processing.py --regenerate-population-metrics
+```
+
+*(Optional) To regenerate all visual charts:*
+```bash
+python src/data_processing.py --generate-charts
 ```
 
 ---

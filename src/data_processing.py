@@ -369,11 +369,11 @@ def generate_all_visualizations(df: pd.DataFrame, pop: Dict, output_dir: str):
     naive_target_pool = pop["joint_intersection_metrics"]["illustrative_84k_reconstruction"]["calculated_target_pool"]
 
     labels = [
-        "Naive Independent Pool\n(Coursework ~84k Model)",
-        "True Joint Target Pool\n(8 PM–2 AM Empirical)",
-        "25% Efficacy Pilot\n(Defensible Realistic)",
-        "35% Efficacy Pilot\n(High-Engagement)",
-        "50% Efficacy Pilot\n(Aggressive Pilot)",
+        "Historical Coursework Pool\n(Naive ~84k Model)",
+        "Empirical Joint Pool\n(8 PM–2 AM Target)",
+        "25% Efficacy Pilot\n(Assumed Moderate)",
+        "35% Efficacy Pilot\n(Assumed High)",
+        "50% Efficacy Pilot\n(Assumed Ceiling)",
     ]
     vals = [
         naive_target_pool,
