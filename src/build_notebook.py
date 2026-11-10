@@ -43,7 +43,7 @@ def add_code(text: str):
 
 
 # 1. Business Problem
-add_md("""# NYC 311 Noise Crisis: Strategic Response Analysis (2023–2024)
+add_md(r"""# NYC 311 Noise Crisis: Strategic Response Analysis (2023–2024)
 ### Decision-Support Analytics, Empirical Joint Probability Auditing & Pilot Prioritization
 
 **Candidate / Author:** Sai Divya Narahari  
@@ -384,8 +384,68 @@ add_md("""## 11. Limitations & Responsible Analytics
 * Apply spatial clustering (DBSCAN) within 100-meter and 1-hour windows to deduplicate multiple calls regarding the same event.
 * Evaluate agency resolution latency against repeat call suppression.""")
 
+def execute_and_populate_outputs(notebook_data: dict, work_dir: str):
+    """Execute all code cells in sequence and record outputs into the notebook schema."""
+    import ast
+    import io
+    import sys
+
+    orig_cwd = os.getcwd()
+    os.chdir(work_dir)
+    global_scope = {}
+    exec_count = 1
+
+    try:
+        for cell in notebook_data["cells"]:
+            if cell["cell_type"] == "code":
+                source = "".join(cell["source"]).strip()
+                cell["execution_count"] = exec_count
+                cell["outputs"] = []
+
+                old_stdout = sys.stdout
+                redirected_output = io.StringIO()
+                sys.stdout = redirected_output
+
+                res = None
+                try:
+                    parsed = ast.parse(source)
+                    if parsed.body and isinstance(parsed.body[-1], ast.Expr):
+                        exec_mod = ast.Module(body=parsed.body[:-1], type_ignores=[])
+                        eval_expr = ast.Expression(body=parsed.body[-1].value)
+                        exec(compile(exec_mod, filename="<ast>", mode="exec"), global_scope)
+                        res = eval(compile(eval_expr, filename="<ast>", mode="eval"), global_scope)
+                    else:
+                        exec(source, global_scope)
+                finally:
+                    sys.stdout = old_stdout
+
+                stdout_val = redirected_output.getvalue()
+                if stdout_val:
+                    cell["outputs"].append({
+                        "name": "stdout",
+                        "output_type": "stream",
+                        "text": [l + "\n" for l in stdout_val.splitlines()],
+                    })
+
+                if res is not None:
+                    plain_repr = repr(res)
+                    data_dict = {"text/plain": [plain_repr]}
+                    if hasattr(res, "to_html"):
+                        data_dict["text/html"] = [res.to_html()]
+                    cell["outputs"].append({
+                        "data": data_dict,
+                        "execution_count": exec_count,
+                        "metadata": {},
+                        "output_type": "execute_result",
+                    })
+
+                exec_count += 1
+    finally:
+        os.chdir(orig_cwd)
+
 os.makedirs(os.path.dirname(notebook_path), exist_ok=True)
+execute_and_populate_outputs(nb, os.path.dirname(notebook_path))
 with open(notebook_path, "w", encoding="utf-8") as f:
     json.dump(nb, f, indent=2)
 
-print(f"Successfully generated audited {notebook_path} with {len(nb['cells'])} cells.")
+print(f"Successfully generated and executed audited {notebook_path} with {len(nb['cells'])} cells.")
