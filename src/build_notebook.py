@@ -44,7 +44,7 @@ def add_code(text: str):
 
 # 1. Business Problem
 add_md("""# NYC 311 Noise Crisis: Strategic Response Analysis (2023–2024)
-### Decision-Support Analytics, Concentration Auditing & Pilot Prioritization
+### Decision-Support Analytics, Empirical Joint Probability Auditing & Pilot Prioritization
 
 **Candidate / Author:** Sai Divya Narahari  
 **Academic Provenance:** Strategic framework & briefing originally presented on December 14, 2025 (*EAI6120: AI Communication / Visualization*, Northeastern University; Guided by Prof. Walter McHugh)  
@@ -53,7 +53,7 @@ add_md("""# NYC 311 Noise Crisis: Strategic Response Analysis (2023–2024)
 ---
 
 ## 1. Business Problem & Decision Context
-Municipal agencies manage massive volumes of non-emergency quality-of-life requests. In New York City, noise complaints represent the **single largest category** of 311 service requests directed to the New York City Police Department (NYPD) and Department of Environmental Protection (DEP).
+Municipal service centers manage millions of citizen requests annually. In New York City, noise complaints represent the **single largest category** of 311 service requests directed to the New York City Police Department (NYPD) and Department of Environmental Protection (DEP).
 
 Traditional municipal response deploys patrol officers and inspection teams reactively and uniformly across all 59 Community Districts. This uniform distribution dilutes operational impact in chronic, severe hotspots and fails to achieve sustainable complaint reductions.
 
@@ -61,18 +61,19 @@ Traditional municipal response deploys patrol officers and inspection teams reac
 * Quantify spatial and temporal concentration across two full calendar years (1.44M records).
 * Audit geographic Pareto distributions across boroughs and individual postal ZIP codes with declared denominators.
 * Measure peak operational windows across all days versus weekends specifically.
+* Evaluate **empirical joint probability** ($P(\text{ZIP} \cap \text{Time})$) versus naive marginal multiplication ($P(\text{ZIP}) \times P(\text{Time})$).
 * Distinguish the targeted problem population from realistic intervention prevention scenarios.
 * Formulate a prioritized operational pilot ("Quiet Force") and evaluate sensitivity models.""")
 
 # 2. Dataset Source & Architecture
-add_md("""## 2. Dataset Source & Description
+add_md("""## 2. Dataset Source & Architecture
 The analysis utilizes the **NYC 311 Service Requests from 2010 to Present** dataset, published on **NYC Open Data** (Socrata Dataset ID: `erm2-nwe9`).
 
 * **Temporal Scope:** January 1, 2023 – December 31, 2024 (2 calendar years).
 * **Population Size:** Exactly 1,439,558 noise complaints citywide (`complaint_type LIKE '%Noise%'`).
 * **Analytical Architecture:**
-  1. **Population Telemetry:** Live SoQL queries aggregate citywide totals across all 1.44M records (borough shares, complaint types, day-of-week volumes, hourly distributions).
-  2. **Stratified Representative Sample:** A multi-season cohort of 50,000 records across 8 quarters (Winter, Spring, Summer, Fall across 2023 and 2024) enables instantaneous, lightweight local execution (<10MB).""")
+  1. **Population Telemetry:** Live SoQL queries aggregate citywide totals across all 1.44M records (borough shares, complaint types, day-of-week volumes, hourly distributions, and exact joint counts).
+  2. **Multi-Season Complete-Week Sample:** A balanced cohort of 51,441 records across 4 complete Monday-to-Sunday calendar weeks (Winter, Spring, Summer, Fall) ensures zero day-of-week truncation artifacts while enabling instantaneous, lightweight local execution (<10MB).""")
 
 # 3. Environment Setup & Data Loading
 add_md("## 3. Environment Setup & Data Loading")
@@ -104,7 +105,7 @@ with open(metadata_file, 'r') as f:
 
 # Load sample dataset
 df_raw = pd.read_csv(sample_file)
-print(f"Sample dataset loaded: {len(df_raw):,} records.")
+print(f"Sample dataset loaded: {len(df_raw):,} records across 4 complete calendar weeks.")
 print(f"Verified Citywide Population Total: {pop['total_noise_complaints']:,} complaints across 2023-2024.")""")
 
 # 4. Data Quality Checks
@@ -133,7 +134,7 @@ We implement standardized transformations:
    * `is_evening_night`: 6-hour window (8:00 PM – 2:00 AM, hours 20, 21, 22, 23, 0, 1).
    * `is_ground_zero`: 2-hour peak (10:00 PM – Midnight, hours 22, 23).
    * `is_weekend`: Friday, Saturday, Sunday.
-4. Standardize text fields (uppercase boroughs, 5-digit regex for ZIP codes).""")
+4. Standardize spatial attributes (uppercase boroughs, 5-digit regex for ZIP codes).""")
 
 add_code("""df = df_raw.copy()
 
@@ -187,8 +188,8 @@ print(f"Residential Noise records in sample: {res_total:,} ({res_total/sample_to
 print(f"Residential Loud Music records: {res_lm:,} ({res_lm/res_total*100:.2f}% of residential noise; {res_lm/sample_total*100:.2f}% of all complaints)")""")
 
 add_md("""**Finding on Noise Descriptors:**
-* **52.46%** of all sample complaints cite `Loud Music/Party` across all noise categories combined (Residential: 25.01% of all complaints, Street/Sidewalk: 16.92%, Commercial: 9.40%).
-* Within **`Noise - Residential` specifically**, `Loud Music/Party` is the primary descriptor, driving **55.00%** of residential complaints (with `Banging/Pounding` at 34.09%).
+* **52.37%** of all complaints cite `Loud Music/Party` across all noise categories combined.
+* Within **`Noise - Residential` specifically**, `Loud Music/Party` is the primary descriptor, driving **56.78%** of residential complaints (with `Banging/Pounding` second).
 * These metrics are reported separately to ensure total analytical transparency.""")
 
 # 7. Geographic Patterns
@@ -220,12 +221,12 @@ top10_zip_sample['Cumulative Share (%)'] = top10_zip_sample['Share of Valid ZIPs
 
 top10_sum = top10_zip_sample['Sample Count'].sum()
 print(f"Sample Top 10 ZIP Sum: {top10_sum:,} / {sample_valid_count:,} valid ZIPs ({top10_sum/sample_valid_count*100:.2f}%)")
-print(f"Sample Top 10 ZIP Sum as % of All 50,000 Sample Records: {top10_sum/len(df)*100:.2f}%")
+print(f"Sample Top 10 ZIP Sum as % of All {len(df):,} Sample Records: {top10_sum/len(df)*100:.2f}%")
 print(f"Citywide Population (Residential Noise Only): Top 10 ZIPs account for {pop['top_residential_zip_codes']['residential_top_10_share_pct']:.2f}% of 677,749 complaints.")
 top10_zip_sample""")
 
 add_md("""**Reconciliation of ZIP Code Concentration:**
-1. **50k Stratified Sample (All Noise Types):** Top 10 ZIP codes account for **17.47%** of complaints with valid postal codes (and **17.46%** of all sample records).
+1. **Multi-Season Complete-Week Sample (All Noise Types):** Top 10 ZIP codes account for **18.90%** of complaints with valid postal codes (and **18.88%** of all sample records).
 2. **Citywide Population (Residential Noise Only):** Top 10 ZIP codes account for **25.99%** of all 677,749 residential complaints citywide.
 3. **Original Coursework Deck:** Reported as **~20%**, representing a rounded operational heuristic.""")
 
@@ -246,11 +247,13 @@ fri_vol = pop['day_of_week_metrics']['friday_daily_volume']
 fri_surge = pop['day_of_week_metrics']['friday_vs_thursday_daily_surge_pct']
 sat_sun_avg = pop['day_of_week_metrics']['sat_sun_daily_average']
 sat_sun_surge = pop['day_of_week_metrics']['sat_sun_surge_vs_weekday_avg_pct']
+fri_sun_pct = pop['day_of_week_metrics']['fri_sun_combined_pct']
 
 print(f"Thursday daily volume: {thu_vol:,}")
 print(f"Friday daily volume: {fri_vol:,} (+{fri_surge:.2f}% surge vs Thursday daily volume)")
 print(f"Monday-Thursday daily average: {mon_thu_avg:,.2f}")
 print(f"Saturday-Sunday daily average: {sat_sun_avg:,.2f} (+{sat_sun_surge:.2f}% surge vs Mon-Thu daily average)")
+print(f"Friday-Sunday combined population share: {fri_sun_pct:.2f}% ({pop['day_of_week_metrics']['fri_sun_combined_volume']:,} complaints)")
 dow_df""")
 
 add_code("""# Time Window Distribution: All Days vs. Weekends
@@ -264,89 +267,108 @@ print(f"Evening/Night Window (8 PM - 2 AM): {h_pop['evening_window_8pm_to_2am_co
 # Sample Weekend vs Weekday breakdown:
 wkend = df[df['is_weekend']]
 wkday = df[~df['is_weekend']]
-print("\\n=== WEEKENDS ONLY (FRI-SUN, Sample: 31,703 Records) ===")
+print(f"\\n=== WEEKENDS ONLY (FRI-SUN, Sample: {len(wkend):,} Records, {len(wkend)/len(df)*100:.2f}% of Sample) ===")
 print(f"Ground Zero Window (10 PM - Midnight): {wkend['is_ground_zero'].sum():,} ({wkend['is_ground_zero'].sum()/len(wkend)*100:.2f}% of weekend volume)")
 print(f"Core Night Window (9 PM - 1 AM): {wkend['is_core_night'].sum():,} ({wkend['is_core_night'].sum()/len(wkend)*100:.2f}% of weekend volume)")
 print(f"Evening/Night Window (8 PM - 2 AM): {wkend['is_evening_night'].sum():,} ({wkend['is_evening_night'].sum()/len(wkend)*100:.2f}% of weekend volume)")""")
 
-add_md("""**Finding on Time Windows:**
-* Across **ALL DAYS** citywide:
-  * **10 PM – Midnight (2 hours):** **21.17%** of all complaints ("Ground Zero").
-  * **9 PM – 1 AM (4 hours):** **37.86%** of all complaints (Core Patrol Window).
-  * **8 PM – 2 AM (6 hours):** **50.29%** of all complaints (Evening/Night Window).
-* On **WEEKENDS specifically (Friday–Sunday)**:
-  * The **9 PM – 1 AM** window accounts for **40.18%** of all weekend complaints.
-  * The **8 PM – 2 AM** window accounts for **52.25%** of all weekend complaints.""")
+add_md("""**Sampling Truncation Investigation:**
+* **Root Cause of Prior Sample Bias:** A previous 50,000-record query applied `$limit=6250` over 7-day windows sorted descending by `created_date`. Because NYC generates ~14,000–16,000 complaints weekly, the query reached its 6,250 ceiling after only ~4 days, completely cutting off Monday and Tuesday. This artificially inflated the weekend record share to 63.4%.
+* **The Correction:** By pulling 4 complete Monday 00:00:00 to Sunday 23:59:59 calendar weeks across Winter, Spring, Summer, and Fall (51,441 records), all days are captured without limit caps. The sample weekend share (**51.91%**) closely mirrors the true population (**54.33%**) within 2.4%.""")
 
 # 9. Key Findings
 add_md("""## 9. Key Verified Findings Summary
 1. **Population Scope:** 1,439,558 complaints across 2023–2024.
 2. **Top 3 Borough Concentration:** Manhattan (26.92%), Brooklyn (26.22%), and the Bronx (24.65%) account for **77.79%** (~78%) of all municipal noise complaints.
-3. **ZIP Code Pareto Distribution:** Top 10 ZIP codes account for **17.47%** of complaints in the multi-season sample (and **25.99%** of residential noise citywide).
-4. **Behavioral Root Cause:** 52.46% of all complaints cite `Loud Music/Party`, which accounts for 55.00% of residential complaints specifically.
+3. **ZIP Code Pareto Distribution:** Top 10 ZIP codes account for **18.90%** of complaints in the multi-season complete-week sample (and **25.99%** of residential noise citywide).
+4. **Behavioral Root Cause:** 52.37% of all complaints cite `Loud Music/Party`, driving 56.78% of residential complaints specifically.
 5. **Day-of-Week Volatility:** Daily complaint volume surges **+22.98% from Thursday into Friday**, and the Saturday/Sunday daily average surges **+78.47%** over the Monday–Thursday weekday baseline.
-6. **Time Windows:** 10 PM – Midnight is the single sharpest 2-hour peak (21.17% citywide); 9 PM – 1 AM captures 37.86% of all complaints (40.18% on weekends); 8 PM – 2 AM captures 50.29% of all complaints (52.25% on weekends).""")
+6. **Time Windows:** 10 PM – Midnight is the single sharpest 2-hour peak (21.17% citywide); 9 PM – 1 AM captures 37.86% of all complaints (38.75% in sample); 8 PM – 2 AM captures 50.29% of all complaints (51.40% in sample).""")
 
-# 10. Recommendations & Scenario Modeling
-add_md("""## 10. Strategic Pilot Prioritization & Sensitivity Modeling
+# 10. Empirical Joint Probability vs. Naive Multiplication
+add_md("""## 10. Empirical Joint Probability & Pilot Scenario Modeling
 
-### Operational Target Population vs. Prevented Reduction
-To maintain analytical rigor, we explicitly separate:
-* **The Target Problem Pool:** The volume of complaints occurring in the targeted hotspot zone.
-* **The Prevented Complaints:** The projected reduction, which depends on assumed pilot effectiveness.
+### Methodological Distinction: Naive Multiplication vs. Joint Intersection
+In the original coursework presentation, the targeted complaint pool was estimated as:
+$$\\text{Target Pool} = \\text{Annual Baseline} \\times P(\\text{Top 10 ZIP}) \\times P(\\text{Evening Window})$$
+$$\\approx 828,000 \\times 20.0\\% \\times 50.7\\% = 83,959 \\approx 84,000 \\text{ complaints/yr}$$
 
-### Mathematical Formulation
-$$\\text{Target Pool} = B \\times S_{\\text{ZIP}} \\times S_{\\text{Window}}$$
-$$\\text{Prevented Complaints} = \\text{Target Pool} \\times E$$
+This calculation assumed statistical independence between location and hour. Here, we calculate the **actual empirical joint intersection** $P(\\text{Top 10 ZIP} \\cap \\text{Evening Window})$ using both the 1.44M population and the representative sample.""")
 
-Where:
-* $B$ = Annual Baseline Status Quo ($828,000$ complaints/yr)
-* $S_{\\text{ZIP}}$ = Top 10 ZIP code share ($20.0\\%$ heuristic / $17.47\\%$ sample)
-* $S_{\\text{Window}}$ = Evening/night window share ($50.7\\%$)
-* $E$ = Assumed pilot de-escalation effectiveness rate""")
+add_code("""# 1. Joint Probability on Citywide Population (1,439,558 Records)
+pop_joint = pop['joint_intersection_metrics']
+pop_total = pop['total_noise_complaints']
 
-add_code("""# Define inputs
-annual_baseline = 828000
-top10_share_heuristic = 0.20
-evening_window_share = 0.507
+top10_pop_count = pop_joint['top_10_zips_all_noise_count']
+top10_pop_pct = pop_joint['top_10_zips_all_noise_pct']
+eve_pop_count = pop_joint['evening_window_8pm_to_2am_count']
+eve_pop_pct = pop_joint['evening_window_8pm_to_2am_pct']
+naive_pop_pct = pop_joint['naive_multiplication_eve_pct']
+joint_pop_count = pop_joint['joint_top10_and_8pm_2am_count']
+joint_pop_pct = pop_joint['joint_top10_and_8pm_2am_pct']
 
-# Target pool volume
-target_pool = annual_baseline * top10_share_heuristic * evening_window_share
-print(f"Annual Baseline Status Quo: {annual_baseline:,} complaints/yr")
-print(f"Target Problem Pool (Top 10 ZIPs, 8 PM - 2 AM): {target_pool:,.0f} complaints/yr (~84,000)\\n")
+print("=== POPULATION-LEVEL EMPIRICAL JOINT INTERSECTION (1,439,558 Records) ===")
+print(f"Top 10 ZIP Codes (All Noise): {top10_pop_count:,} ({top10_pop_pct:.2f}%)")
+print(f"Evening Window (8 PM - 2 AM): {eve_pop_count:,} ({eve_pop_pct:.2f}%)")
+print(f"Naive Multiplication P(ZIP) * P(Time): {naive_pop_pct:.2f}%")
+print(f"Actual Empirical Joint Intersection P(ZIP and 8PM-2AM): {joint_pop_count:,} ({joint_pop_pct:.2f}%)")
+print(f"Discrepancy (Joint vs Naive): {joint_pop_pct - naive_pop_pct:+.2f}% points")
+print(f"Annualized Joint Problem Pool (2-Yr Avg): {joint_pop_count / 2:,.0f} complaints/yr")
+print(f"Target Pool on 828k Peak Rate: {828000 * (joint_pop_pct / 100):,.0f} complaints/yr")""")
 
-# Sensitivity Scenarios
-efficacy_scenarios = [
+add_code("""# 2. Joint Probability on Sample (51,441 Records)
+sample_top10_list = top10_zip_sample['ZIP Code'].tolist()
+df['in_top10'] = df['clean_zip'].isin(sample_top10_list)
+
+sample_zip_pct = df['in_top10'].mean() * 100
+sample_eve_pct = df['is_evening_night'].mean() * 100
+sample_naive_pct = (sample_zip_pct / 100) * (sample_eve_pct / 100) * 100
+sample_joint_count = (df['in_top10'] & df['is_evening_night']).sum()
+sample_joint_pct = (df['in_top10'] & df['is_evening_night']).mean() * 100
+
+print("\\n=== SAMPLE-LEVEL EMPIRICAL JOINT INTERSECTION (51,441 Records) ===")
+print(f"Sample Top 10 ZIP Share: {sample_zip_pct:.2f}%")
+print(f"Sample Evening Window Share: {sample_eve_pct:.2f}%")
+print(f"Sample Naive Multiplication: {sample_naive_pct:.2f}%")
+print(f"Sample Actual Joint Intersection: {sample_joint_count:,} ({sample_joint_pct:.2f}%)")
+print(f"Discrepancy: {sample_joint_pct - sample_naive_pct:+.2f}% points")""")
+
+add_code("""# 3. Pilot Sensitivity Modeling on True Empirical Joint Pool
+# We evaluate realistic intervention efficacy on the true annual joint pool (67,556 complaints/yr)
+true_joint_annual_pool = pop_joint['annualized_joint_8pm_2am_volume']
+annual_baseline = pop['total_noise_complaints'] / 2.0 # 719,779 complaints/yr
+
+scenarios = [
     ('Conservative Pilot (15% Effectiveness)', 0.15),
     ('Moderate Pilot (25% Effectiveness)', 0.25),
     ('High-Engagement Pilot (35% Effectiveness)', 0.35),
     ('Aggressive Pilot (50% Effectiveness)', 0.50),
-    ('Illustrative Ceiling (Original Coursework Deck: 84k)', 1.00)
+    ('Theoretical Upper Bound (100% Elimination)', 1.00),
 ]
 
-scenario_results = []
-for name, eff in efficacy_scenarios:
-    prevented = target_pool * eff
+scenario_rows = []
+for name, eff in scenarios:
+    prevented = true_joint_annual_pool * eff
     post_pilot = annual_baseline - prevented
     citywide_pct = (prevented / annual_baseline) * 100
-    scenario_results.append({
+    scenario_rows.append({
         'Scenario': name,
-        'Effectiveness (%)': f"{eff*100:.0f}%",
-        'Prevented Complaints': f"{prevented:,.0f}",
-        'Post-Pilot Volume': f"{post_pilot:,.0f}",
+        'Intervention Efficacy': f"{eff*100:.0f}%",
+        'Target Problem Pool': f"{true_joint_annual_pool:,.0f}",
+        'Prevented Complaints / Year': f"{prevented:,.0f}",
+        'Post-Pilot Annual Volume': f"{post_pilot:,.0f}",
         'Citywide Reduction (%)': f"{citywide_pct:.2f}%"
     })
 
-pd.DataFrame(scenario_results)""")
+pd.DataFrame(scenario_rows)""")
 
-add_md("""**Methodological Interpretation of the 84,000 Figure:**
-* The **~84,000 figure represents the entire targeted complaint pool** occurring in the top 10 ZIP codes during evening/night hours ($828,000 \\times 20\\% \\times 50.7\\% = 83,959$).
-* Projecting an 84,000 reduction requires assuming **100% elimination of all noise in that window**, which is an unrealistic, theoretical ceiling.
-* Realistic pilot scenarios project:
-  * **25% Effectiveness:** **20,990 fewer complaints** (~2.5% citywide reduction).
-  * **35% Effectiveness:** **29,386 fewer complaints** (~3.5% citywide reduction).
-  * **50% Effectiveness:** **41,980 fewer complaints** (~5.1% citywide reduction).
-* The 84,000 figure is retained strictly as an **illustrative upper-bound scenario** from the original mayoral presentation.""")
+add_md("""**Methodological Reconciliation of the 84,000 Figure:**
+1. **The 84,000 figure represents the TARGETED PROBLEM POOL**, not the number of prevented complaints. It was derived from multiplying independent marginal shares ($828,000 \\times 20\\% \\times 50.7\\% = 83,959 \\approx 84,000$).
+2. **Empirical Joint Probability:** The actual joint intersection $P(\\text{Top 10 ZIP} \\cap \\text{8 PM–2 AM})$ is **9.39%** in the population (and **9.22%** in the sample).
+   * Applied to the actual 2-year average baseline (719,779 complaints/yr), the empirical joint target pool is **67,556 complaints/yr**.
+   * Applied to the presentation's 828,000 peak rate, the joint target pool is **77,713 complaints/yr**.
+3. **Prevented Complaints vs. Target Pool:** Achieving an 84,000 complaint reduction from a pool of 67,556–77,713 complaints would require **>100% intervention efficacy**, which is physically impossible.
+4. **Defensible Pilot Outcomes:** At realistic pilot effectiveness rates of 20% to 35%, the expected reduction is **~13,500 to ~23,600 complaints per year**.""")
 
 # 11. Limitations & Next Steps
 add_md("""## 11. Limitations & Responsible Analytics

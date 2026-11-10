@@ -1,6 +1,6 @@
 # Project Boundaries, Analytical Limitations & Responsible Analytics
 
-Maintaining intellectual honesty and methodological rigor is central to this analysis. This document outlines the key constraints of municipal 311 citizen telemetry and the operational boundaries of the proposed scenario model.
+Maintaining intellectual honesty and methodological rigor is central to this analysis. This document outlines the key constraints of municipal 311 citizen telemetry, sampling artifacts, and the operational boundaries of the proposed scenario model.
 
 ---
 
@@ -27,13 +27,13 @@ The most fundamental constraint of municipal 311 data is that it measures **citi
 
 ---
 
-## 3. Telemetry Duplication & Repeat Callers
+## 3. Sampling Truncation Artifacts & Sliding-Window Bias
 
-* **Incident Clustering:**
-  * A single loud social gathering or block party can generate 15 distinct 311 calls from multiple surrounding apartment units within a 30-minute window.
-  * In raw tabular exports, these represent 15 independent rows, artificially inflating complaint counts unless spatial-temporal clustering algorithms (e.g., DBSCAN with 100-meter and 1-hour radii) are applied.
-* **Chronic / Serial Complainants:**
-  * A small percentage of hyper-active callers can disproportionately skew neighborhood rankings. Due to citizen anonymization in open municipal data, individual complainant identifiers cannot be tracked or de-duplicated.
+* **The Sliding-Window Limit Trap:**
+  * When querying high-volume time-series APIs like NYC Open Data Socrata, downloading fixed intervals with row limits (e.g., 7 days with `$limit=6250`) introduces severe temporal distortion if the query defaults to descending sort order.
+  * Because NYC generates ~14,000 to ~16,000 noise complaints weekly, the 6,250 row quota was exhausted after only ~4.5 days, cutting off early weekdays (Monday and Tuesday) and artificially inflating weekend share to 63.4%.
+* **The Complete-Week Solution:**
+  * Representative samples must align with complete Monday 00:00:00 to Sunday 23:59:59 calendar boundaries without intra-week limits to preserve the natural 54.33% weekend distribution.
 
 ---
 
@@ -43,12 +43,16 @@ The most fundamental constraint of municipal 311 data is that it measures **citi
 > **Essential Analytical Distinction:** The projected reduction of **84,000 complaints** is strictly an **illustrative upper-bound scenario**, NOT an observed real-world policy result.
 
 * **Target Population Pool vs. Prevented Reduction:**
-  * The ~84,000 figure represents the **entire targeted complaint pool** occurring in the top 10 ZIP codes during evening/night hours ($828,000 \times 20\% \times 50.7\% = 83,959$).
-  * Projecting an 84,000 reduction assumes **100% elimination** of all targeted noise, which is an unrealistic, theoretical ceiling.
+  * The ~84,000 figure represents the **targeted problem pool** under naive marginal multiplication ($828,000 \times 20\% \times 50.7\% = 83,959$).
+  * The **true empirical joint intersection** $P(\text{Top 10 ZIP} \cap \text{8 PM–2 AM})$ is **9.39%** (135,111 / 1,439,558), which corresponds to:
+    * **67,556 complaints/year** on the actual 2-year average baseline.
+    * **77,713 complaints/year** on the 828,000 peak run-rate.
+  * Preventing 84,000 complaints from this pool would require **$>100\%$ intervention efficacy** (eliminating more complaints than actually exist in the target zone), which is mathematically impossible.
   * Realistic pilot scenarios project:
-    * **25% Effectiveness:** **20,990 fewer complaints** (~2.5% citywide drop).
-    * **35% Effectiveness:** **29,386 fewer complaints** (~3.5% citywide drop).
-    * **50% Effectiveness:** **41,980 fewer complaints** (~5.1% citywide drop).
+    * **20% Effectiveness:** **13,511 fewer complaints/yr** (~1.9% citywide drop).
+    * **25% Effectiveness:** **16,889 fewer complaints/yr** (~2.3% citywide drop).
+    * **35% Effectiveness:** **23,645 fewer complaints/yr** (~3.3% citywide drop).
+    * **50% Effectiveness:** **33,778 fewer complaints/yr** (~4.7% citywide drop).
 * **No Municipal Adoption Claim:** The "Quiet Force" pilot program was formulated as an academic strategy brief for the NYC Office of the Mayor; it was not adopted or deployed by municipal authorities.
 * **No Realized Savings Claim:** This project does not claim that municipal budgets were saved, that officer hours were reduced, or that citywide complaints measurably dropped.
 * **Displacement Effects (Spatial Spreading):** A common risk in targeted enforcement is that noise-producing activities simply displace across precinct boundaries or shift into adjacent unpatrolled hours.

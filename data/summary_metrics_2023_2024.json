@@ -77,16 +77,105 @@
     "residential_population_total": 677749,
     "residential_top_10_share_pct": 25.99,
     "top_10_zips": [
-      {"zip": "10466", "count": 73393},
-      {"zip": "10456", "count": 15117},
-      {"zip": "10468", "count": 13719},
-      {"zip": "11226", "count": 11412},
-      {"zip": "10457", "count": 11180},
-      {"zip": "11221", "count": 11171},
-      {"zip": "10452", "count": 10394},
-      {"zip": "10031", "count": 10031},
-      {"zip": "10467", "count": 10023},
-      {"zip": "11207", "count": 9707}
+      {
+        "zip": "10466",
+        "count": 73393
+      },
+      {
+        "zip": "10456",
+        "count": 15117
+      },
+      {
+        "zip": "10468",
+        "count": 13719
+      },
+      {
+        "zip": "11226",
+        "count": 11412
+      },
+      {
+        "zip": "10457",
+        "count": 11180
+      },
+      {
+        "zip": "11221",
+        "count": 11171
+      },
+      {
+        "zip": "10452",
+        "count": 10394
+      },
+      {
+        "zip": "10031",
+        "count": 10031
+      },
+      {
+        "zip": "10467",
+        "count": 10023
+      },
+      {
+        "zip": "11207",
+        "count": 9707
+      }
     ]
+  },
+  "joint_intersection_metrics": {
+    "top_10_residential_zips": [
+      "10466",
+      "10456",
+      "10468",
+      "11226",
+      "10457",
+      "11221",
+      "10452",
+      "10031",
+      "10467",
+      "11207"
+    ],
+    "top_10_zips_all_noise_count": 276631,
+    "top_10_zips_all_noise_pct": 19.22,
+    "evening_window_8pm_to_2am_count": 724018,
+    "evening_window_8pm_to_2am_pct": 50.29,
+    "naive_multiplication_eve_pct": 9.67,
+    "joint_top10_and_8pm_2am_count": 135111,
+    "joint_top10_and_8pm_2am_pct": 9.39,
+    "annualized_joint_8pm_2am_volume": 67555.5,
+    "core_window_9pm_to_1am_count": 545058,
+    "core_window_9pm_to_1am_pct": 37.86,
+    "naive_multiplication_core_pct": 7.28,
+    "joint_top10_and_9pm_1am_count": 99530,
+    "joint_top10_and_9pm_1am_pct": 6.91,
+    "annualized_joint_9pm_1am_volume": 49765.0,
+    "illustrative_84k_reconstruction": {
+      "presentation_annual_baseline": 828000,
+      "heuristic_top10_zip_share": 0.2,
+      "heuristic_evening_window_share": 0.507,
+      "calculated_target_pool": 83959,
+      "rounding_in_deck": 84000,
+      "is_realized_outcome": false,
+      "is_prevented_count": false,
+      "explanation": "The 84,000 figure represents an illustrative estimate of the TARGET POOL of complaints occurring in the top 10 ZIP codes between 8 PM and 2 AM under naive marginal multiplication (828k * 20% * 50.7% = 83,959 ~ 84k). Empirical joint intersection on the 1.44M population yields 9.39% (135,111 / 1,439,558, or ~67,556/yr on actual volume; ~77,713/yr on 828k baseline). An intervention cannot prevent 100% of complaints; at 20-30% pilot efficacy, projected complaint reductions are 13,500 to 20,300/yr."
+    }
+  },
+  "sampling_audit": {
+    "sample_size": 51441,
+    "sample_methodology": "4 complete calendar weeks (Monday 00:00:00 to Sunday 23:59:59) across Winter, Spring, Summer, and Fall 2023",
+    "sample_day_of_week_counts": {
+      "Saturday": 9527,
+      "Sunday": 9097,
+      "Friday": 8080,
+      "Thursday": 7013,
+      "Wednesday": 6540,
+      "Monday": 5622,
+      "Tuesday": 5562
+    },
+    "sample_weekend_fri_sun_pct": 51.91,
+    "population_weekend_fri_sun_pct": 54.33,
+    "sample_top10_zip_share_pct": 18.9,
+    "sample_evening_window_8pm_to_2am_pct": 51.4,
+    "sample_joint_top10_and_8pm_2am_pct": 9.22,
+    "sample_core_window_9pm_to_1am_pct": 38.75,
+    "sample_joint_top10_and_9pm_1am_pct": 6.97,
+    "truncation_root_cause_explanation": "Prior sample had 31,703 weekend records (63.4%) because Socrata queries with =6250 sorted descending from Sunday night hit the limit after ~4.8 days, truncating Monday and Tuesday. Sampling complete calendar weeks resolves the truncation artifact and mirrors the population within 2.4%."
   }
 }

@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Data Source: NYC Open Data](https://img.shields.io/badge/Data-NYC%20Open%20Data-003366.svg)](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9)
 
-> **Executive Summary:** An operational data-analytics investigation translating **1.44 million municipal 311 incident records** (2023–2024) into a prioritized resource-allocation strategy. Demonstrates extreme spatial and temporal Pareto concentration—providing civic leadership with an empirical basis to transition from uniform, reactive patrols toward a high-impact, prioritized enforcement pilot.
+> **Executive Summary:** An operational data-analytics investigation translating **1.44 million municipal 311 incident records** (2023–2024) into an empirical resource-allocation strategy. Demonstrates spatial and temporal Pareto concentration, resolves **joint probability vs. naive marginal multiplication**, and provides civic leadership with an audited decision-support model to transition from uniform, reactive patrols toward a high-impact enforcement pilot.
 
 ---
 
@@ -26,23 +26,25 @@ Traditional municipal operations disperse patrol officers and inspection teams r
 
 ## 📊 Key Verified Findings
 
-All metrics reflect rigorous population-level extraction and multi-season sample verification from the official NYC Open Data API across calendar years 2023 and 2024.
+All metrics reflect rigorous population-level extraction and multi-season complete-week verification from the official NYC Open Data API across calendar years 2023 and 2024.
 
 | Analytical Dimension | Verified Finding | Calculation & Denominator | Operational Relevance |
 | :--- | :--- | :--- | :--- |
 | **Total Incident Volume** | **1,439,558 Records** | SoQL Query: `created_date BETWEEN '2023-01-01' AND '2024-12-31' AND complaint_type LIKE '%Noise%'` | Full 2-year population baseline (~1.44M). |
 | **Top 3 Borough Concentration** | **77.79% (~78%)** | $\frac{1,119,886 \text{ (MHT+BK+BX)}}{1,439,558 \text{ (Total Records)}} \times 100$ | Manhattan (26.92%), Brooklyn (26.22%), Bronx (24.65%) carry over three-quarters of all volume. |
 | **Top 2 Borough Concentration** | **53.14% (~53%)** | $\frac{764,977 \text{ (MHT+BK)}}{1,439,558 \text{ (Total Records)}} \times 100$ | Over half of citywide complaints originate in Manhattan and Brooklyn alone. |
-| **Top 10 ZIP Concentration (Sample)** | **17.47%** | $\frac{8,730 \text{ (Top 10 ZIPs)}}{49,970 \text{ (Valid ZIP Records in 50k Sample)}} \times 100$ | 10 ZIP codes generate nearly one-fifth of complaints across 200+ residential ZIPs. |
-| **Top 10 ZIP Concentration (Residential)** | **25.99%** | $\frac{176,147 \text{ (Top 10 Residential ZIPs)}}{677,749 \text{ (Residential Population)}} \times 100$ | Over one-quarter of residential noise concentrates in 10 neighborhoods. |
-| **Primary Descriptor** | **52.46% Loud Music** | $\frac{26,228 \text{ ('Loud Music/Party')}}{50,000 \text{ (Sample Total)}} \times 100$ | Behavioral driver (55.00% within `Noise - Residential` specifically). |
+| **Top 10 ZIP Concentration (Sample All Noise)** | **18.90%** | $\frac{9,724 \text{ (Top 10 ZIPs)}}{51,441 \text{ (Sample Total)}} \times 100$ | 10 ZIP codes generate nearly one-fifth of complaints across 200+ residential ZIPs. |
+| **Top 10 ZIP Concentration (Residential Population)** | **25.99%** | $\frac{176,147 \text{ (Top 10 Residential ZIPs)}}{677,749 \text{ (Residential Population)}} \times 100$ | Over one-quarter of residential noise concentrates in 10 neighborhoods. |
+| **Primary Descriptor** | **52.37% Loud Music** | $\frac{26,940 \text{ ('Loud Music/Party')}}{51,441 \text{ (Sample Total)}} \times 100$ | Behavioral driver (56.78% within `Noise - Residential` specifically). |
 | **Friday Daily Volume Surge** | **+22.98% (~23%)** | $\frac{195,514 \text{ (Friday Daily Vol)}}{158,975 \text{ (Thursday Daily Vol)}} - 1$ | Friday marks the sharpest daily acceleration into the weekend. |
 | **Weekend Daily Average Surge** | **+78.47%** | $\frac{293,317.5 \text{ (Sat/Sun Daily Avg)}}{164,352.25 \text{ (Mon–Thu Daily Avg)}} - 1$ | Saturday/Sunday daily volumes surge 78% over weekday baselines. |
-| **Core Patrol Window (All Days)** | **37.86% (9 PM – 1 AM)** | $\frac{545,058 \text{ (Hours 21–00)}}{1,439,558 \text{ (Total Records)}} \times 100$ | 4-hour night block (accounts for **40.18%** on weekends). |
-| **Evening/Night Window (All Days)**| **50.29% (~51%) (8 PM – 2 AM)**| $\frac{724,018 \text{ (Hours 20–01)}}{1,439,558 \text{ (Total Records)}} \times 100$ | 6-hour window capturing over half of all complaints (52.25% on weekends). |
+| **Friday–Sunday Combined Share** | **54.33% Population** | $\frac{782,149 \text{ (Fri--Sun Complaints)}}{1,439,558 \text{ (Total Records)}} \times 100$ | Over half of weekly volume concentrates across the 3-day weekend. |
+| **Core Patrol Window (All Days)** | **37.86% (9 PM – 1 AM)** | $\frac{545,058 \text{ (Hours 21–00)}}{1,439,558 \text{ (Total Records)}} \times 100$ | 4-hour night block (accounts for 38.75% in sample). |
+| **Evening/Night Window (All Days)**| **50.29% (~51%) (8 PM – 2 AM)**| $\frac{724,018 \text{ (Hours 20–01)}}{1,439,558 \text{ (Total Records)}} \times 100$ | 6-hour window capturing over half of all complaints (51.40% in sample). |
 | **Operational "Ground Zero"** | **21.17% (10 PM – 12 AM)** | $\frac{304,740 \text{ (Hours 22–23)}}{1,439,558 \text{ (Total Records)}} \times 100$ | Peak 2-hour window capturing over one-fifth of citywide volume. |
-| **Target Hotspot Pool** | **~84,000 Complaints/yr** | $828,000 \text{ (Baseline)} \times 20\% \text{ (ZIP Share)} \times 50.7\% \text{ (Evening Share)}$ | Annual volume occurring in targeted hotspot window. |
-| **Projected Pilot Reduction** | **~21k to 42k Prevented** | Efficacy Sensitivity: 25% Efficacy $= 20,990$; 50% Efficacy $= 41,980$ | Illustrative ceiling $= 83,959$ (original deck upper-bound). |
+| **Empirical Joint Target Pool** | **9.39% (~67.6k/yr)** | $\frac{135,111 \text{ (Top 10 ZIPs } \cap \text{ 8 PM--2 AM)}}{1,439,558 \text{ (Total Records)}} \times 100$ | True empirical joint problem pool ($P(\text{ZIP} \cap \text{Time})$). |
+| **Naive Marginal Multiplication** | **~84,000 Complaints/yr** | $828,000 \text{ (Peak Baseline)} \times 20\% \text{ (ZIP)} \times 50.7\% \text{ (Time)} = 83,959$ | Original coursework estimate assuming statistical independence. |
+| **Projected Pilot Reductions** | **~13.5k to ~33.8k/yr** | Efficacy Sensitivity: 20% Efficacy $= 13,511$; 25% $= 16,889$; 50% $= 33,778$ | Realistic prevented complaint scenarios on true empirical joint pool. |
 
 ---
 
@@ -56,26 +58,44 @@ Manhattan, Brooklyn, and the Bronx account for **1.12 million of the 1.44 millio
 ---
 
 ### 2. Hyper-Local Pareto: Top 10 Hotspot ZIP Codes
-In our 50,000-record multi-season sample, the top 10 ZIP codes account for **17.47%** of valid postal records across NYC's 200+ residential ZIP codes. In the citywide residential population, the top 10 residential ZIP codes drive **25.99%** of volume.
+In our 51,441-record multi-season complete-week sample, the top 10 ZIP codes account for **18.90%** of complaints across NYC's 200+ residential ZIP codes. In the citywide residential population, the top 10 residential ZIP codes drive **25.99%** of volume.
 
 ![Top 10 ZIP Codes](visuals/top10_zip_codes.png)
 
 ---
 
 ### 3. Temporal Density Heatmap: Day vs. Hour
-Plotting complaint volume across the 168 hours of the week confirms strong temporal clustering. The **9:00 PM – 1:00 AM** window captures **37.9%** of complaints across all days (and **40.2%** on weekends), while the broader **8:00 PM – 2:00 AM** window accounts for **50.3%** across all days (and **52.3%** on weekends).
+Plotting complaint volume across the 168 hours of the week confirms intense temporal clustering. Friday through Sunday evening hours (8:00 PM – 2:00 AM) exhibit the heaviest concentration across all five boroughs.
 
 ![Hourly Noise Heatmap](visuals/hourly_noise_heatmap.png)
 
 ---
 
 ### 4. Pilot Scenario Modeling: Target Pool vs. Prevented Complaints
-To maintain analytical rigor, the project separates the **target problem pool** (~84,000 complaints occurring annually in the hotspot window) from **prevented complaints** across realistic effectiveness rates (25% = ~21k, 50% = ~42k).
+To maintain analytical rigor, the project separates the **target problem pool** from **prevented complaints** across realistic effectiveness rates (25% = ~16.9k, 35% = ~23.6k, 50% = ~33.8k).
 
 ![Pilot Scenario Projection](visuals/pilot_scenario_projection.png)
 
 > [!NOTE]
-> **Methodological Guardrail:** The 84,000 figure is retained strictly as an **illustrative upper-bound scenario** representing full remediation of the targeted window pool ($828\text{k} \times 20\% \times 50.7\% = 83,959$). It is **not** an observed real-world policy result.
+> **Methodological Guardrail on the 84,000 Figure:** The 84,000 figure is retained strictly as an **illustrative upper-bound scenario** representing the naive marginal estimate of the targeted problem pool ($828\text{k} \times 20\% \times 50.7\% = 83,959 \approx 84\text{k}$). The true empirical joint intersection is **9.39%** (67,556 complaints/yr on actual 2-year volume). Preventing 84,000 complaints from this pool would require >100% efficacy. Realistic pilot models project 13,500 to 33,800 complaints prevented annually.
+
+---
+
+## 🔬 Methodological Innovations
+
+### 1. Empirical Joint Intersection vs. Naive Marginal Multiplication
+In the original coursework presentation, the targeted pool was calculated by multiplying marginal shares independently:
+$$\text{Naive Pool} = 828,000 \times 20\% \times 50.7\% = 83,959 \approx 84,000$$
+
+This assumed statistical independence between location ($P(\text{ZIP})$) and time ($P(\text{Time})$). Live SoQL API queries on all 1,439,558 records reveal the true joint intersection:
+$$P(\text{Top 10 ZIP} \cap \text{8 PM–2 AM}) = \frac{135,111}{1,439,558} = \mathbf{9.39\%}$$
+
+* Naive multiplication ($19.22\% \times 50.29\% = 9.67\%$) slightly overstates the joint concentration by 0.28 percentage points.
+* Applied to the actual 2-year average baseline (719,779/yr), the true joint target pool is **67,556 complaints/yr** (or **77,713/yr** on the 828k peak baseline).
+
+### 2. Sampling Truncation Diagnosis & Correction
+* **The Glitch:** A prior 50,000-record sample contained an anomalous 31,703 weekend records (63.4%). Investigation revealed that Socrata queries with `$limit=6250` sorted descending by `created_date` hit the cap after ~4.8 days, truncating Monday and Tuesday.
+* **The Fix:** The pipeline was restructured to download **4 complete Monday 00:00:00 to Sunday 23:59:59 calendar weeks** (51,441 records) across Winter, Spring, Summer, and Fall. The resulting sample weekend share (**51.91%**) accurately mirrors the full 1.44M population (**54.33%**) within 2.4%.
 
 ---
 
@@ -108,14 +128,14 @@ nyc-311-noise-analytics/
 │   ├── hourly_noise_heatmap.png
 │   └── pilot_scenario_projection.png
 ├── docs/                          # Comprehensive technical and interview documentation
-│   ├── methodology.md             # In-depth math, denominator definitions & SoQL queries
+│   ├── methodology.md             # In-depth math, joint probability & SoQL queries
 │   ├── findings.md                # Full narrative breakdown of empirical patterns
 │   ├── limitations.md             # Discussion of 311 reporting bias & confounders
 │   ├── interview-prep.md          # 15 interview Q&As, code explanations & elevator pitches
 │   └── resume-bullets.md          # ATS-friendly bullet points across 3 analyst tracks
 └── data/
     ├── README.md                  # Schema, data dictionary & ingestion guidelines
-    ├── sample_nyc_noise_50k.csv   # Stratified multi-season 50k sample (<10MB)
+    ├── sample_nyc_noise_50k.csv   # Complete-week multi-season 51k sample (<10MB)
     └── summary_metrics_2023_2024.json # Verified population totals (1.44M records)
 ```
 
@@ -154,7 +174,7 @@ python src/data_processing.py --regenerate-population-metrics
 ## 👤 Provenance & Individual Ownership
 
 * **Original Academic Project (Dec 14, 2025):** The strategic framework, mayoral presentation, and "Quiet Force" scenario model were created and presented by **Sai Divya Narahari** for *EAI6120: AI Communication / Visualization* at **Northeastern University** (Guided by Prof. Walter McHugh).
-* **Reconstructed Python Codebase (Nov 2026):** Because coursework Colab scripts were not preserved in local files, the entire automated data ingestion, cleaning pipeline, statistical denominator audit, and Jupyter notebook were independently reconstructed and validated using public NYC Open Data.
+* **Reconstructed Python Codebase (Nov 2026):** Because coursework Colab scripts were not preserved in local files, the entire automated data ingestion, cleaning pipeline, statistical denominator audit, joint probability reconciliation, and Jupyter notebook were independently reconstructed and validated using public NYC Open Data.
 
 ---
 

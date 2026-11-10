@@ -1,6 +1,6 @@
 # NYC 311 Noise Complaint Data Documentation
 
-This directory documents the data sources, ingestion pipeline, sample fixtures, and schema definitions used in the **NYC 311 Noise Analytics** repository.
+This directory documents the data sources, ingestion pipeline, sample fixtures, schema definitions, and statistical denominators used in the **NYC 311 Noise Analytics** repository.
 
 ---
 
@@ -53,20 +53,33 @@ The primary analysis evaluates all municipal noise service requests logged betwe
 
 ## 3. Included Data Files in this Repository
 
-1. `sample_nyc_noise_50k.csv` (Sample Dataset, 9.4 MB):
-   * A multi-season stratified sample of **50,000 verified incident records** spanning 8 quarters across 2023 and 2024 (Winter, Spring, Summer, Fall).
-   * Preserves real-world geographic, temporal, and complaint distributions.
+1. `sample_nyc_noise_50k.csv` (Sample Dataset, 9.8 MB):
+   * A multi-season complete-week sample of **51,441 verified incident records** spanning 4 complete Monday-to-Sunday calendar weeks across Winter, Spring, Summer, and Fall (January, April, July, and October).
+   * **Sampling Methodology & Truncation Fix:** A prior sampling attempt with an artificial 6,250 limit per 7-day window truncated early weekdays (Monday/Tuesday) due to Socrata's descending sort order, inflating weekend records to 63.4%. By sampling complete Monday 00:00:00 to Sunday 23:59:59 calendar weeks without limit truncation, the sample's weekend share (**51.91%**) accurately mirrors the full population (**54.33%**) within 2.4%.
 2. `summary_metrics_2023_2024.json`:
-   * Verified citywide population totals, borough distributions, day-of-week counts, and hourly metrics extracted directly from the Socrata SoQL API coordinator across all 1.44M records.
+   * Verified citywide population totals, borough distributions, day-of-week counts, hourly distributions, empirical joint probability counts, and sampling audit metrics extracted directly from the Socrata SoQL API coordinator across all 1.44M records.
 
 ---
 
-## 4. How to Re-Extract or Expand Data
+## 4. Empirical Joint Probability Metrics
+
+| Metric | Population Count | Population Share (%) | Sample Share (%) |
+| :--- | :--- | :--- | :--- |
+| **Top 10 ZIP Codes (All Noise)** | 276,631 | 19.22% | 18.90% |
+| **Evening Window (8 PM – 2 AM)** | 724,018 | 50.29% | 51.40% |
+| **Naive Independent Multiplication ($P(A) \times P(B)$)** | — | 9.67% | 9.72% |
+| **Empirical Joint Intersection ($P(A \cap B)$)** | **135,111** | **9.39%** | **9.22%** |
+| **Core Window (9 PM – 1 AM)** | 545,058 | 37.86% | 38.75% |
+| **Joint Intersection Top 10 ZIPs $\cap$ 9 PM–1 AM** | **99,530** | **6.91%** | **6.97%** |
+
+---
+
+## 5. How to Re-Extract or Expand Data
 
 ```bash
-# Download 50,000 multi-season records
+# Download 4 complete calendar weeks (51,441 records)
 python src/data_processing.py --download-sample
 
-# Regenerate population metrics live from Socrata API
-python src/data_processing.py --regenerate-population-metrics
+# Regenerate all visual charts
+python src/data_processing.py --generate-charts
 ```
