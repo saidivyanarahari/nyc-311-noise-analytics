@@ -176,12 +176,28 @@ python src/data_processing.py --generate-charts
 
 ---
 
-## 👤 Provenance & Individual Ownership
+## 👥 Project Provenance & Contributors
 
-* **Original Academic Project (Dec 14, 2025):** The strategic framework, mayoral presentation, and "Quiet Force" scenario model were created and presented by **Sai Divya Narahari** for *EAI6120: AI Communication / Visualization* at **Northeastern University** (Guided by Prof. Walter McHugh).
-* **Reconstructed Python Codebase (Nov 2026):** Because coursework Colab scripts were not preserved in local files, the entire automated data ingestion, cleaning pipeline, statistical denominator audit, joint probability reconciliation, and Jupyter notebook were independently reconstructed and validated using public NYC Open Data.
+### Original Academic Project (December 2025)
 
----
+This project originated as a collaborative academic project developed by **Sai Divya Narahari** and **Tushar Shankar Nayak** for *EAI6120: AI Communication / Visualization* at **Northeastern University**, under the guidance of **Prof. Walter McHugh**.
+
+Together, we developed the NYC 311 noise complaint analysis, strategic recommendations, and the **"Quiet Force"** intervention proposal, culminating in a mayoral strategy presentation on December 14, 2025.
+
+### Python Codebase Reconstruction (November 2026)
+
+The project was subsequently reconstructed into a reproducible Python analytics repository using publicly available NYC Open Data.
+
+The reconstructed repository includes data ingestion, cleaning, statistical validation, geographic and temporal analysis, visualizations, and a Jupyter notebook.
+
+### Contributors
+
+- **Sai Divya Narahari** — Original academic project co-creator; Python repository reconstruction and documentation.
+- **Tushar Shankar Nayak** — Original academic project co-creator; collaborative analysis and strategic recommendations.
+
+### Data Source
+
+NYC Open Data — 311 Service Requests, 2023–2024.
 
 ## 📄 License
 This project is open-source and available under the [MIT License](LICENSE). Primary civic data is provided by the City of New York under NYC Open Data Terms of Use.
