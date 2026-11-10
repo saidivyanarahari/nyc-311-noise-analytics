@@ -85,15 +85,24 @@ $$\text{Top 2 Borough Share (MHT + BK)} = \frac{387,561 + 377,416}{1,439,558} \t
    * **Result:** $\frac{276,631}{1,439,558} \times 100 = \mathbf{19.22\%}$.
 4. **Original Coursework Deck Heuristic:** Reported as **~20%**, representing an operational heuristic for geographic Pareto clustering.
 
-### C. Day-of-Week Volatility
-Across the 1,439,558 complaint population:
-* Monday: 181,441; Tuesday: 162,758; Wednesday: 154,235; Thursday: 158,975; Friday: 195,514; Saturday: 282,440; Sunday: 304,195.
+### C. Day-of-Week Volatility & Calendar Normalization
+Across the 1,439,558 complaint population spanning 2023–2024 (731 calendar days, accounting for leap year 2024), we normalize daily volumes by the actual calendar occurrences of each day:
+* **Sunday (105 days):** 304,195 complaints $\rightarrow$ **2,897.10 complaints/day**
+* **Monday (105 days):** 181,441 complaints $\rightarrow$ **1,728.01 complaints/day**
+* **Tuesday (105 days):** 162,758 complaints $\rightarrow$ **1,550.08 complaints/day**
+* **Wednesday (104 days):** 154,235 complaints $\rightarrow$ **1,483.03 complaints/day**
+* **Thursday (104 days):** 158,975 complaints $\rightarrow$ **1,528.61 complaints/day**
+* **Friday (104 days):** 195,514 complaints $\rightarrow$ **1,879.94 complaints/day**
+* **Saturday (104 days):** 282,440 complaints $\rightarrow$ **2,715.77 complaints/day**
+
+**Normalized Comparisons:**
 * **Friday-versus-Thursday Daily Volume Surge:**
-  $$\text{Friday Surge} = \left(\frac{195,514}{158,975} - 1\right) \times 100 = \mathbf{+22.98\% \approx 23\%}$$
-* **Saturday/Sunday Daily Average vs. Monday–Thursday Baseline:**
-  $$\text{Mon–Thu Daily Average} = \frac{181,441 + 162,758 + 154,235 + 158,975}{4} = 164,352.25$$
-  $$\text{Sat–Sun Daily Average} = \frac{282,440 + 304,195}{2} = 293,317.50$$
-  $$\text{Weekend Surge} = \left(\frac{293,317.50}{164,352.25} - 1\right) \times 100 = \mathbf{+78.47\%}$$
+  $$\text{Normalized Friday Surge} = \left(\frac{195,514 / 104}{158,975 / 104} - 1\right) \times 100 = \left(\frac{1,879.94}{1,528.61} - 1\right) \times 100 = \mathbf{+22.98\% \approx 23\%}$$
+  *(Because both Friday and Thursday occur exactly 104 times in 2023–2024, the calendar normalization confirms the exact +22.98% rate).*
+* **Saturday/Sunday vs. Monday–Thursday Baseline:**
+  $$\text{Mon–Thu Normalized Daily Average} = \frac{181,441 + 162,758 + 154,235 + 158,975}{105 + 105 + 104 + 104} = \frac{657,409}{418} = \mathbf{1,572.75 \text{ complaints/day}}$$
+  $$\text{Sat–Sun Normalized Daily Average} = \frac{282,440 + 304,195}{104 + 105} = \frac{586,635}{209} = \mathbf{2,806.87 \text{ complaints/day}}$$
+  $$\text{Normalized Weekend Surge} = \left(\frac{2,806.87}{1,572.75} - 1\right) \times 100 = \mathbf{+78.47\%}$$
 
 ### D. Peak Hours & Operational Windows
 1. **Core Operational Window (9:00 PM – 1:00 AM, Hours 21, 22, 23, 0):**

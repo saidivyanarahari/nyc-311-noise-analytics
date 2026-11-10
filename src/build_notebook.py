@@ -232,28 +232,49 @@ add_md("""**Reconciliation of ZIP Code Concentration:**
 
 # 8. Temporal Patterns
 add_md("""## 8. Temporal Patterns: Day-of-Week Volatility & Peak Windows
-We audit day-of-week surges and confirm exact percentages across time windows for all days versus weekends.""")
+We audit day-of-week surges and confirm exact percentages across time windows for all days versus weekends, normalizing by the actual calendar occurrences of each day in 2023–2024.""")
 add_code("""# Day-of-Week Volatility in Citywide Population (1.44M Records)
-dow_df = pd.DataFrame(
-    list(pop['day_of_week_counts'].items()),
-    columns=['Day of Week', 'Population Count']
-)
-dow_df['Population Share (%)'] = (dow_df['Population Count'] / pop['total_noise_complaints']) * 100
+# Calendar occurrences in 2023-2024 (731 total days: 2024 was a leap year):
+# Sunday=105, Monday=105, Tuesday=105, Wednesday=104, Thursday=104, Friday=104, Saturday=104
+cal_days = {
+    'Sunday': 105, 'Monday': 105, 'Tuesday': 105,
+    'Wednesday': 104, 'Thursday': 104, 'Friday': 104, 'Saturday': 104
+}
 
-# Daily averages
-mon_thu_avg = pop['day_of_week_metrics']['mon_thu_daily_average']
-thu_vol = pop['day_of_week_metrics']['thursday_daily_volume']
-fri_vol = pop['day_of_week_metrics']['friday_daily_volume']
-fri_surge = pop['day_of_week_metrics']['friday_vs_thursday_daily_surge_pct']
-sat_sun_avg = pop['day_of_week_metrics']['sat_sun_daily_average']
-sat_sun_surge = pop['day_of_week_metrics']['sat_sun_surge_vs_weekday_avg_pct']
+dow_df = pd.DataFrame([
+    {
+        'Day of Week': day,
+        'Population Count': count,
+        'Population Share (%)': (count / pop['total_noise_complaints']) * 100,
+        'Calendar Days (2023-2024)': cal_days[day],
+        'Normalized Daily Average': count / cal_days[day]
+    }
+    for day, count in pop['day_of_week_counts'].items()
+])
+
+# Normalized comparisons
+thu_norm = dow_df.loc[dow_df['Day of Week'] == 'Thursday', 'Normalized Daily Average'].values[0]
+fri_norm = dow_df.loc[dow_df['Day of Week'] == 'Friday', 'Normalized Daily Average'].values[0]
+fri_norm_surge = ((fri_norm / thu_norm) - 1) * 100
+
+mon_thu_tot = dow_df.loc[dow_df['Day of Week'].isin(['Monday', 'Tuesday', 'Wednesday', 'Thursday']), 'Population Count'].sum()
+mon_thu_days = dow_df.loc[dow_df['Day of Week'].isin(['Monday', 'Tuesday', 'Wednesday', 'Thursday']), 'Calendar Days (2023-2024)'].sum()
+mon_thu_norm_avg = mon_thu_tot / mon_thu_days
+
+sat_sun_tot = dow_df.loc[dow_df['Day of Week'].isin(['Saturday', 'Sunday']), 'Population Count'].sum()
+sat_sun_days = dow_df.loc[dow_df['Day of Week'].isin(['Saturday', 'Sunday']), 'Calendar Days (2023-2024)'].sum()
+sat_sun_norm_avg = sat_sun_tot / sat_sun_days
+sat_sun_norm_surge = ((sat_sun_norm_avg / mon_thu_norm_avg) - 1) * 100
+
 fri_sun_pct = pop['day_of_week_metrics']['fri_sun_combined_pct']
 
-print(f"Thursday daily volume: {thu_vol:,}")
-print(f"Friday daily volume: {fri_vol:,} (+{fri_surge:.2f}% surge vs Thursday daily volume)")
-print(f"Monday-Thursday daily average: {mon_thu_avg:,.2f}")
-print(f"Saturday-Sunday daily average: {sat_sun_avg:,.2f} (+{sat_sun_surge:.2f}% surge vs Mon-Thu daily average)")
-print(f"Friday-Sunday combined population share: {fri_sun_pct:.2f}% ({pop['day_of_week_metrics']['fri_sun_combined_volume']:,} complaints)")
+print(f"Thursday normalized daily volume: {thu_norm:,.2f} complaints/day (158,975 / 104 days)")
+print(f"Friday normalized daily volume: {fri_norm:,.2f} complaints/day (195,514 / 104 days)")
+print(f"Normalized Friday Surge vs Thursday: +{fri_norm_surge:.2f}%")
+print(f"\\nMonday-Thursday normalized daily average: {mon_thu_norm_avg:,.2f} complaints/day (657,409 / 418 days)")
+print(f"Saturday-Sunday normalized daily average: {sat_sun_norm_avg:,.2f} complaints/day (586,635 / 209 days)")
+print(f"Normalized Weekend Surge vs Weekday Baseline: +{sat_sun_norm_surge:.2f}%")
+print(f"Friday-Sunday combined population share: {fri_sun_pct:.2f}% ({pop['day_of_week_metrics']['fri_sun_combined_volume']:,} complaints across 313 calendar days)")
 dow_df""")
 
 add_code("""# Time Window Distribution: All Days vs. Weekends

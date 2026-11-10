@@ -73,13 +73,14 @@ Breaking down descriptors across complaint types prevents conflating all noise w
 
 ## 4. Temporal Dynamics: Volatility & Peak Windows
 
-### Day-of-Week Volatility (1.44M Population Records)
-* **Friday-versus-Thursday Daily Volume:** Complaints increase from 158,975 on Thursdays to 195,514 on Fridays—a **+22.98% (~23%) daily volume surge**.
+### Day-of-Week Volatility & Calendar Normalization (1.44M Population Records)
+Normalizing by the exact number of calendar days in 2023–2024 (731 days: Sunday/Monday/Tuesday = 105 days each; Wednesday/Thursday/Friday/Saturday = 104 days each):
+* **Friday-versus-Thursday Daily Volume:** Daily volume increases from 1,528.61 complaints/day on Thursdays (158,975 / 104) to 1,879.94 complaints/day on Fridays (195,514 / 104)—a **+22.98% (~23%) daily surge**.
 * **Saturday/Sunday vs. Weekday Baseline:**
-  * Monday–Thursday daily average $= 164,352.25$.
-  * Saturday/Sunday daily average $= 293,317.50$.
-  * Surge $= \mathbf{+78.47\%}$ higher daily average over the weekend.
-* **Friday–Sunday Combined Share:** 782,149 complaints (**54.33%** of weekly total).
+  * Monday–Thursday normalized daily average $= 657,409 / 418\text{ days} = \mathbf{1,572.75 \text{ complaints/day}}$.
+  * Saturday/Sunday normalized daily average $= 586,635 / 209\text{ days} = \mathbf{2,806.87 \text{ complaints/day}}$.
+  * Normalized Surge $= \mathbf{+78.47\%}$ higher daily average over the weekend.
+* **Friday–Sunday Combined Share:** 782,149 complaints (**54.33%** of 2-year total across 313 calendar days; normalized rate of 2,498.88 complaints/day).
 
 ### Peak Hours (All Days vs. Weekends)
 * **10 PM – Midnight ("Ground Zero"):**

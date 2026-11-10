@@ -49,10 +49,10 @@ This guide prepares you to speak confidently, defend your analytical decisions, 
 ### Q5: How did I calculate the major metrics?
 * **Borough Concentration:** Grouped total records by `borough`, divided by the population total (1,439,558), and summed the top three boroughs (77.79%).
 * **Top 10 ZIP Concentration:** Filtered for valid ZIP codes, computed the top 10 sum, and evaluated both against sample valid ZIPs (18.90%) and the citywide residential noise population (25.99%).
-* **Friday Surge:** Computed Friday daily volume vs. Thursday daily volume: $(195,514 / 158,975 - 1) = +22.98\%$.
-* **Weekend Surge:** Computed Saturday/Sunday daily average vs. Monday–Thursday weekday daily average: $(293,317.50 / 164,352.25 - 1) = +78.47\%$.
+* **Friday Surge:** Computed Friday daily volume vs. Thursday daily volume: $(195,514 / 158,975 - 1) = +22.98\%$ (identical when normalized by the 104 Thursdays and 104 Fridays in 2023–2024: $1,879.94 / 1,528.61 - 1 = +22.98\%$).
+* **Weekend Surge:** Computed Saturday/Sunday normalized daily average (2,806.87 complaints/day across 209 days) vs. Monday–Thursday normalized daily average (1,572.75 complaints/day across 418 days): $(2,806.87 / 1,572.75 - 1) = +78.47\%$.
 * **Empirical Joint Target Pool:** Filtered the full 1.44M population directly for `incident_zip IN (top 10)` AND `hour IN (8 PM - 2 AM)`, yielding 135,111 complaints (9.39%, or 67,556 complaints/yr).
-* **Sensitivity Scenarios:** Applied realistic efficacy rates (15%, 25%, 35%, 50%) to the empirical joint target pool.
+* **Sensitivity Scenarios:** Applied assumed efficacy rates (15%, 25%, 35%, 50%) to the empirical joint target pool.
 
 ### Q6: What was the denominator for each percentage?
 * **Borough Concentration (77.79%):** Total citywide noise complaints across 2023–2024 (1,439,558).
@@ -60,8 +60,8 @@ This guide prepares you to speak confidently, defend your analytical decisions, 
 * **Top 10 ZIP Share in Residential Population (25.99%):** Total citywide `Noise - Residential` complaints (677,749).
 * **Loud Music Share (52.37%):** Total records in 51k complete-week sample across all noise categories.
 * **Residential Loud Music Share (56.78%):** Total `Noise - Residential` complaints in sample (21,635).
-* **Friday Surge (+22.98%):** Total Thursday daily complaint volume (158,975).
-* **Weekend Daily Avg Surge (+78.47%):** Average daily volume Monday–Thursday (164,352.25).
+* **Friday Surge (+22.98%):** Thursday normalized volume (1,528.61 complaints/day; 158,975 complaints across 104 calendar days).
+* **Weekend Daily Avg Surge (+78.47%):** Monday–Thursday normalized daily average (1,572.75 complaints/day; 657,409 complaints across 418 calendar days).
 * **Empirical Joint Share (9.39%):** Total citywide noise complaints (1,439,558).
 
 ### Q7: Why did I analyze boroughs, ZIP codes, and hours?

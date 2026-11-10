@@ -62,7 +62,30 @@
     "sat_sun_daily_average": 293317.5,
     "sat_sun_surge_vs_weekday_avg_pct": 78.47,
     "fri_sun_combined_volume": 782149,
-    "fri_sun_combined_pct": 54.33
+    "fri_sun_combined_pct": 54.33,
+    "calendar_day_occurrences_2023_2024": {
+      "total_days": 731,
+      "Sunday": 105,
+      "Monday": 105,
+      "Tuesday": 105,
+      "Wednesday": 104,
+      "Thursday": 104,
+      "Friday": 104,
+      "Saturday": 104
+    },
+    "normalized_daily_averages": {
+      "Sunday": 2897.1,
+      "Monday": 1728.01,
+      "Tuesday": 1550.08,
+      "Wednesday": 1483.03,
+      "Thursday": 1528.61,
+      "Friday": 1879.94,
+      "Saturday": 2715.77,
+      "mon_thu_normalized_daily_avg": 1572.75,
+      "sat_sun_normalized_daily_avg": 2806.87,
+      "friday_normalized_vs_thursday_surge_pct": 22.98,
+      "sat_sun_normalized_vs_weekday_surge_pct": 78.47
+    }
   },
   "hourly_distribution_all_days": {
     "ground_zero_10pm_to_midnight_count": 304740,
